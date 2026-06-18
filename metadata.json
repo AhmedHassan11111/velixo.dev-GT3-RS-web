@@ -1,0 +1,6 @@
+{
+  "name": "Porsche 911 GT3 RS",
+  "description": "An interactive landing page for the Porsche 911 GT3 RS, featuring scroll-driven frame animations, performance specs, and color configurator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
