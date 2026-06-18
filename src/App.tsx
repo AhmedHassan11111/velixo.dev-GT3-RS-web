@@ -650,7 +650,7 @@ function HeroScrollFrames() {
     <section
       id="overview"
       ref={containerRef}
-      className="hero-canvas-section relative h-[700svh]"
+      className="hero-canvas-section relative h-screen w-full overflow-hidden bg-black"
     >
       {/* Canvas */}
       <canvas
