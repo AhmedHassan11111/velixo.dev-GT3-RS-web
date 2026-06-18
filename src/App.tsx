@@ -679,46 +679,46 @@ function HeroScrollFrames() {
       )}
 
       {/* Overlay content — visible during first portion of scroll */}
-      <div className="hero-overlay absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
+      <div className="hero-overlay absolute inset-x-0 bottom-0 top-0 flex flex-col justify-end items-start px-6 pb-20 pt-24 md:px-12 md:pb-28 max-w-4xl text-left bg-gradient-to-t from-black/60 via-transparent to-transparent">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="max-w-4xl"
+          className="max-w-xl"
         >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black/40 px-4 py-1.5 text-xs font-medium tracking-widest text-neutral-300 backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-accent" />
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-black/60 px-3 py-1 text-[10px] font-medium tracking-widest text-neutral-300 backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-accent animate-pulse" />
             NEW 2025 MODEL
           </div>
-          <h1 className="text-5xl font-bold tracking-tight text-white sm:text-7xl lg:text-8xl">
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-5xl">
             911 GT3 RS
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-300 sm:text-xl">
+          <p className="mt-3 text-sm text-neutral-400 sm:text-base leading-relaxed">
             Born from the track. Built for the road. The most extreme
-            road-legal 911 in Porsche history.
+            road-legal 911 in history.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <Link
               href="#configure"
-              className="group inline-flex items-center gap-2 rounded-full bg-brand-accent px-7 py-3.5 text-base font-semibold text-white transition-transform hover:scale-105"
+              className="group inline-flex items-center gap-2 rounded-full bg-brand-accent px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105"
             >
               Configure yours
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               href="#performance"
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-600 bg-black/40 px-7 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition-colors hover:bg-black/60"
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-black/65 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-neutral-950"
             >
               Explore performance
             </Link>
           </div>
         </motion.div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
-          <div className="scroll-indicator flex flex-col items-center gap-2 text-neutral-400">
-            <span className="text-xs tracking-widest">SCROLL</span>
-            <ChevronDown className="h-5 w-5" />
+        {/* Scroll indicator - absolute bottom right or kept centered but small */}
+        <div className="absolute bottom-6 right-6 md:right-12">
+          <div className="scroll-indicator flex items-center gap-2 text-neutral-500">
+            <span className="text-[10px] tracking-widest font-mono">SCROLL TO EXPLORE</span>
+            <ChevronDown className="h-4 w-4 animate-bounce" />
           </div>
         </div>
       </div>
