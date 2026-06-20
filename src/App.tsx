@@ -85,24 +85,28 @@ const techFeatures = [
     title: "PASM Suspension",
     description:
       "Active suspension management with adjustable dampers and a fully ball-jointed suspension for track-day precision.",
+    image: "/tech-pasm.jpg",
   },
   {
     icon: <Shield className="h-6 w-6" />,
     title: "PSM Sport",
     description:
       "Porsche Stability Management with track mode and PSM Sport for controlled drifts on closed circuits.",
+    image: "/thirdcard.jpg",
   },
   {
     icon: <Camera className="h-6 w-6" />,
     title: "Lap Timer & Telemetry",
     description:
       "Built-in lap timer with GPS tracking and real-time telemetry displayed on the 10.9-inch PCM screen.",
+    image: "/tech-telemetry.jpg",
   },
   {
     icon: <Zap className="h-6 w-6" />,
     title: "DRS System",
     description:
       "Drag Reduction System borrowed from Formula 1 — adjust the rear wing angle at the push of a button.",
+    image: "/tech-drs.jpg",
   },
 ];
 
@@ -679,7 +683,8 @@ function HeroScrollFrames() {
       )}
 
       {/* Overlay content — visible during first portion of scroll */}
-      <div className="hero-overlay absolute inset-x-0 bottom-0 top-0 flex flex-col justify-end items-start px-6 pb-20 pt-24 md:px-12 md:pb-28 max-w-4xl text-left bg-gradient-to-t from-black/60 via-transparent to-transparent">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+      <div className="hero-overlay absolute inset-x-0 bottom-0 top-0 flex flex-col justify-end items-start px-6 pb-20 pt-24 md:px-12 md:pb-28 max-w-4xl text-left">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -697,12 +702,15 @@ function HeroScrollFrames() {
             Born from the track. Built for the road. The most extreme
             road-legal 911 in history.
           </p>
+          <p className="mt-2 text-xs text-neutral-500 sm:text-sm">
+            Developed by velixo.io — contact me to chat about your next web project.
+          </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <Link
-              href="#configure"
+              href="mailto:contact@velixo.io"
               className="group inline-flex items-center gap-2 rounded-full bg-brand-accent px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105"
             >
-              Configure yours
+              Send Message
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
@@ -721,6 +729,25 @@ function HeroScrollFrames() {
             <ChevronDown className="h-4 w-4 animate-bounce" />
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function ShowcaseIntro() {
+  return (
+    <section className="relative flex min-h-[50vh] flex-col items-center justify-center bg-white py-24 sm:py-32">
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+        <p className="text-xl italic text-neutral-900 sm:text-2xl">
+          “This website is a creative frontend showcase — designed and developed to demonstrate advanced web design and animation skills”
+        </p>
+      </div>
+      <div className="relative z-10 mx-auto mt-16 w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <img
+          src="/section.jpg"
+          alt="Showcase"
+          className="w-full rounded-xl object-cover shadow-2xl"
+        />
       </div>
     </section>
   );
@@ -841,8 +868,9 @@ function Marquee() {
 
 function Performance() {
   return (
-    <section id="performance" className="bg-black py-24 sm:py-32 grain-overlay">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="performance" className="relative bg-[url('/section3.jpg')] bg-cover bg-center py-24 sm:py-32">
+      <div className="absolute inset-0 bg-black/70" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-bold tracking-widest text-brand-accent">PERFORMANCE</p>
           <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
@@ -884,7 +912,7 @@ function Performance() {
 
 function Design() {
   return (
-    <section id="design" className="bg-neutral-950 py-24 sm:py-32">
+    <section id="design" className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <motion.div
@@ -894,18 +922,18 @@ function Design() {
             transition={{ duration: 0.5 }}
           >
             <p className="text-sm font-bold tracking-widest text-brand-accent">DESIGN</p>
-            <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            <h2 className="mt-3 text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl">
               Form follows <span className="font-serif italic text-brand-accent">function</span>
             </h2>
-            <p className="mt-6 text-lg text-neutral-400">
+            <p className="mt-6 text-lg text-neutral-600">
               Every vent, every wing, every surface serves a purpose. The GT3 RS
               is sculpted by the wind tunnel and validated on the racetrack.
             </p>
             <div className="mt-8 space-y-6">
               {designFeatures.map((feature) => (
                 <div key={feature.title} className="border-l-2 border-brand-accent pl-6">
-                  <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-neutral-400">
+                  <h3 className="text-lg font-semibold text-neutral-900">{feature.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-neutral-600">
                     {feature.description}
                   </p>
                 </div>
@@ -921,10 +949,9 @@ function Design() {
             className="relative overflow-hidden rounded-3xl"
           >
             <img
-              src={`${getImgDir()}/ezgif-frame-090.jpg`}
-              alt="Porsche GT3 RS rear wing"
+              src="/section4.jpg"
+              alt="Portfolio showcase"
               className="h-full w-full object-cover"
-              onError={handleImageError}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6">
@@ -940,14 +967,14 @@ function Design() {
 
 function Engine() {
   return (
-    <section id="engine" className="bg-black py-24 sm:py-32 grain-overlay">
+    <section id="engine" className="bg-[#D4B896] py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <p className="text-sm font-bold tracking-widest text-brand-accent">POWERTRAIN</p>
-          <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <p className="text-sm font-bold tracking-widest text-[#4A2C2A]">POWERTRAIN</p>
+          <h2 className="mt-3 text-4xl font-bold tracking-tight text-[#4A2C2A] sm:text-5xl">
             The heart of a racer
           </h2>
-          <p className="mt-4 text-lg text-neutral-400">
+          <p className="mt-4 text-lg text-[#4A2C2A]">
             A naturally aspirated 4.0-liter flat-six that revs to 9,000 rpm —
             derived directly from the 911 RSR GT racing car.
           </p>
@@ -958,19 +985,19 @@ function Engine() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5 }}
-          className="mt-12 overflow-hidden rounded-2xl border border-neutral-800"
+          className="mt-12 overflow-hidden rounded-2xl border border-[#4A2C2A]/30"
         >
           <table className="w-full text-left">
             <tbody>
               {engineSpecs.map((spec, i) => (
                 <tr
                   key={spec.label}
-                  className={i % 2 === 0 ? "bg-neutral-900/50" : "bg-black"}
+                  className={i % 2 === 0 ? "bg-[#4A2C2A]/10" : "bg-[#4A2C2A]/5"}
                 >
-                  <td className="px-6 py-4 text-sm font-medium text-neutral-400">
+                  <td className="px-6 py-4 text-sm font-medium text-[#4A2C2A]">
                     {spec.label}
                   </td>
-                  <td className="px-6 py-4 text-right text-sm font-semibold text-white">
+                  <td className="px-6 py-4 text-right text-sm font-semibold text-[#4A2C2A]">
                     {spec.value}
                   </td>
                 </tr>
@@ -985,14 +1012,14 @@ function Engine() {
 
 function Technology() {
   return (
-    <section id="technology" className="bg-neutral-950 py-24 sm:py-32">
+    <section id="technology" className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-bold tracking-widest text-brand-accent">TECHNOLOGY</p>
-          <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="mt-3 text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl">
             Engineered for the apex
           </h2>
-          <p className="mt-4 text-lg text-neutral-400">
+          <p className="mt-4 text-lg text-neutral-600">
             Race-borne technology adapted for the road. Every system works in
             harmony to deliver pure driving precision.
           </p>
@@ -1006,15 +1033,29 @@ function Technology() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="rounded-2xl border border-neutral-800 bg-neutral-900/50 p-6"
+              whileHover={{ y: -14, scale: 1.03 }}
+              className="group relative min-h-[420px] cursor-pointer overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-lg transition-all duration-500 hover:border-brand-accent hover:shadow-2xl hover:shadow-brand-accent/10"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-accent/10 text-brand-accent">
-                {item.icon}
+              <div
+                className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110"
+                style={{
+                  backgroundImage: `url(${item.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
+              <div className="absolute inset-0 bg-black/20 transition-colors duration-500 group-hover:bg-black/10" />
+
+              <div className="relative z-10 flex h-full flex-col justify-end p-7">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-accent/20 text-brand-accent transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-accent group-hover:text-white">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-neutral-300">
+                  {item.description}
+                </p>
               </div>
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-400">
-                {item.description}
-              </p>
             </motion.div>
           ))}
         </div>
@@ -1023,95 +1064,58 @@ function Technology() {
   );
 }
 
-function Configure() {
-  const [selectedColor, setSelectedColor] = useState(0);
+function ServicesShowcase() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  const img1Scale = useTransform(scrollYProgress, [0, 0.45], [1, 0.5]);
+  const img234Opacity = useTransform(scrollYProgress, [0.2, 0.45, 0.5, 1], [0, 1, 1, 1]);
+  const img234Scale = useTransform(scrollYProgress, [0.2, 0.45], [0.5, 1]);
 
   return (
-    <section id="configure" className="bg-black py-24 sm:py-32 grain-overlay">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-bold tracking-widest text-brand-accent">CONFIGURATOR</p>
-          <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Make it yours
-          </h2>
-          <p className="mt-4 text-lg text-neutral-400">
-            Choose your exterior color. Every GT3 RS is hand-built to order in
-            Stuttgart, Germany.
-          </p>
-        </div>
+    <>
+      <div className="h-px w-full bg-neutral-300" />
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Car preview */}
+      <section className="flex h-[50vh] items-center justify-center bg-black px-8 py-16">
+        <p className="max-w-3xl text-center text-lg font-light tracking-wide leading-relaxed text-neutral-300 sm:text-xl lg:text-2xl">
+          &ldquo;Our web services are not limited to cars only; they can be tailored to anything you want, no matter what it is.&rdquo;
+        </p>
+      </section>
+
+      <div className="h-px w-full bg-neutral-300" />
+
+      <section id="configure" ref={containerRef} className="relative h-[250vh] bg-neutral-900">
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5 }}
-            className="relative overflow-hidden rounded-3xl border border-neutral-800"
+            className="absolute inset-0 z-10"
+            style={{ scale: img1Scale, transformOrigin: "top left" }}
           >
-            <img
-              src={`${getImgDir()}/ezgif-frame-001.jpg`}
-              alt="Porsche GT3 RS"
-              className="h-full w-full object-cover"
-              onError={handleImageError}
-            />
-            <div
-              className="absolute inset-0 mix-blend-overlay transition-colors duration-500"
-              style={{ backgroundColor: colorOptions[selectedColor].hex }}
-            />
-            <div className="absolute bottom-6 left-6">
-              <p className="text-sm font-medium tracking-widest text-white/80">
-                EXTERIOR COLOR
-              </p>
-              <p className="mt-1 text-2xl font-bold text-white">
-                {colorOptions[selectedColor].name}
-              </p>
-            </div>
+            <img src="/fhotoone.jpg" alt="Service showcase" className="h-full w-full object-cover" />
           </motion.div>
 
-          {/* Color picker */}
-          <div>
-            <h3 className="text-lg font-semibold text-white">Choose your color</h3>
-            <div className="mt-6 grid grid-cols-3 gap-4">
-              {colorOptions.map((color, i) => (
-                <button
-                  key={color.name}
-                  onClick={() => setSelectedColor(i)}
-                  className={`group rounded-2xl border-2 p-4 text-left transition-all ${
-                    selectedColor === i
-                      ? "border-brand-accent bg-neutral-900"
-                      : "border-neutral-800 bg-neutral-900/30 hover:border-neutral-600"
-                  }`}
-                >
-                  <div
-                    className="mb-3 h-16 w-full rounded-lg"
-                    style={{ backgroundColor: color.hex }}
-                  />
-                  <p className="text-sm font-medium text-white">{color.name}</p>
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-8 rounded-2xl border border-neutral-800 bg-neutral-900/50 p-6">
-              <div className="flex items-baseline justify-between">
-                <span className="text-sm text-neutral-400">Starting from</span>
-                <span className="text-3xl font-extrabold text-white">$241,300</span>
+          <motion.div
+            className="absolute right-0 top-0 z-20 h-full w-full"
+            style={{ opacity: img234Opacity, scale: img234Scale, transformOrigin: "top right" }}
+          >
+            <div className="grid h-full w-full grid-cols-2 grid-rows-2 gap-[2px]">
+              <div className="overflow-hidden" />
+              <div className="overflow-hidden">
+                <img src="/fhoto2.jpg" alt="Service showcase" className="h-full w-full object-cover" />
               </div>
-              <Link
-                href="#"
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-brand-accent px-6 py-3.5 text-base font-semibold text-white transition-transform hover:scale-105"
-              >
-                Build & Order
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <p className="mt-4 text-center text-xs text-neutral-500">
-                Final pricing varies by options and destination charges.
-              </p>
+              <div className="overflow-hidden">
+                <img src="/fhoto3.jpg" alt="Service showcase" className="h-full w-full object-cover" />
+              </div>
+              <div className="overflow-hidden">
+                <img src="/fhoto4.jpg" alt="Service showcase" className="h-full w-full object-cover" />
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
@@ -1120,37 +1124,21 @@ function Gallery() {
     <section id="gallery" className="bg-neutral-950 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-bold tracking-widest text-brand-accent">GALLERY</p>
-          <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Every angle, perfection
           </h2>
+          <p className="mt-6 text-lg font-light tracking-wide leading-relaxed text-neutral-400">
+            Showcase all the elements of your product with clarity and a modern touch, while still allowing customers to choose the price.
+          </p>
         </div>
 
-        <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {galleryImages.map((img, i) => (
-            <motion.div
-              key={img.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="group relative overflow-hidden rounded-2xl border border-neutral-800"
-            >
-              <img
-                src={`${getImgDir()}/${img.frame}`}
-                alt={`Porsche GT3 RS - ${img.label}`}
-                className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                onError={handleImageError}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-              <div className="absolute bottom-4 left-4">
-                <p className="text-sm font-medium tracking-widest text-brand-accent">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-                <p className="text-lg font-bold text-white">{img.label}</p>
-              </div>
-            </motion.div>
-          ))}
+        <div className="mt-16" style={{ padding: "0 20px" }}>
+          <img
+            src="/dark.jpg"
+            alt="Showcase"
+            className="w-full rounded-2xl object-cover"
+            style={{ height: "calc(100vh - 10px)", minHeight: "70vh", objectPosition: "center 60%" }}
+          />
         </div>
       </div>
     </section>
@@ -1159,8 +1147,10 @@ function Gallery() {
 
 function Reviews() {
   return (
-    <section className="bg-black py-24 sm:py-32 grain-overlay">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative bg-black py-24 sm:py-32">
+      <div className="absolute inset-0 bg-[url('/white.jpg')] bg-cover bg-center" />
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-bold tracking-widest text-brand-accent">REVIEWS</p>
           <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
@@ -1188,8 +1178,8 @@ function Reviews() {
             </motion.div>
           ))}
         </div>
-      </div>
-    </section>
+        </div>
+      </section>
   );
 }
 
@@ -1197,11 +1187,11 @@ function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="bg-neutral-950 py-24 sm:py-32">
+    <section id="faq" className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <p className="text-sm font-bold tracking-widest text-brand-accent">FAQ</p>
-          <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="mt-3 text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl">
             Questions, answered
           </h2>
         </div>
@@ -1210,13 +1200,13 @@ function FAQ() {
           {faqs.map((faq, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-neutral-800 bg-neutral-900/50 p-6"
+              className="rounded-2xl border border-neutral-200 bg-neutral-50 p-6"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
                 className="flex w-full items-center justify-between text-left"
               >
-                <span className="font-semibold text-white">{faq.question}</span>
+                <span className="font-semibold text-neutral-900">{faq.question}</span>
                 <ChevronDown
                   className={`h-5 w-5 text-neutral-500 transition-transform ${
                     openIndex === i ? "rotate-180" : ""
@@ -1227,7 +1217,7 @@ function FAQ() {
                 <motion.p
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
-                  className="mt-3 text-neutral-400"
+                  className="mt-3 text-neutral-600"
                 >
                   {faq.answer}
                 </motion.p>
@@ -1246,11 +1236,10 @@ function CTA() {
       <div className="absolute inset-0 grain-overlay" />
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
         <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Ready to feel the apex?
+          Make your website more elegant and modern.
         </h2>
         <p className="mt-4 text-lg text-white/80">
-          Book a private viewing at your nearest Porsche Experience Center and
-          discover the GT3 RS up close.
+          Your website is the mirror that reflects your product's identity. Don't hesitate to make it modern and premium.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
@@ -1261,26 +1250,12 @@ function CTA() {
             <ArrowRight className="h-4 w-4" />
           </Link>
           <a
-            href="tel:+18007677243"
+            href="mailto:contact@velixo.io"
             className="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-black/20"
           >
             <Phone className="h-4 w-4" />
-            Call Porsche
+            Send Message
           </a>
-        </div>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-white/70">
-          <span className="flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            Atlanta, GA
-          </span>
-          <span className="flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            Los Angeles, CA
-          </span>
-          <span className="flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            Stuttgart, DE
-          </span>
         </div>
       </div>
     </section>
@@ -1291,54 +1266,42 @@ function Footer() {
   return (
     <footer className="border-t border-neutral-800 bg-black py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 md:grid-cols-4">
+        <div className="grid gap-8 md:grid-cols-2">
           <div>
             <Link href="/" className="flex items-center text-xl font-bold tracking-tight text-white">
               velixo<span className="text-brand-accent">.io</span>
             </Link>
-            <p className="mt-4 text-sm text-neutral-500">
-              The new 911 GT3 RS. Born from the track. Built for the road.
-              The pinnacle of motorsport engineering.
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-500">
+              Our services are distinguished by quality, fast delivery, and after-sales support. We can create anything, regardless of the type of service you provide. Just get in touch with us.
             </p>
           </div>
+
           <div>
-            <h4 className="font-semibold text-white">Model</h4>
-            <ul className="mt-4 space-y-2 text-sm text-neutral-500">
-              <li><Link href="#overview" className="hover:text-white">Overview</Link></li>
-              <li><Link href="#performance" className="hover:text-white">Performance</Link></li>
-              <li><Link href="#design" className="hover:text-white">Design</Link></li>
-              <li><Link href="#engine" className="hover:text-white">Engine</Link></li>
-              <li><Link href="#technology" className="hover:text-white">Technology</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold text-white">Ownership</h4>
-            <ul className="mt-4 space-y-2 text-sm text-neutral-500">
-              <li><Link href="#configure" className="hover:text-white">Configure</Link></li>
-              <li><Link href="#gallery" className="hover:text-white">Gallery</Link></li>
-              <li><Link href="#faq" className="hover:text-white">FAQ</Link></li>
-              <li><Link href="#" className="hover:text-white">Find a Dealer</Link></li>
-              <li><Link href="#" className="hover:text-white">Porsche Experience</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold text-white">Contact</h4>
-            <ul className="mt-4 space-y-2 text-sm text-neutral-500">
-              <li className="flex items-center gap-2"><Phone className="h-4 w-4" /> +1 (800) 767-7243</li>
-              <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> Atlanta, GA</li>
-              <li className="flex items-center gap-2"><MapPin className="h-4 w-4" /> Los Angeles, CA</li>
-            </ul>
+            <h4 className="font-semibold text-white">Get in touch</h4>
+            <p className="mt-3 text-sm text-neutral-500">
+              Send us a message and we'll get back to you as soon as possible.
+            </p>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 rounded-full border border-neutral-700 bg-neutral-900 px-5 py-3 text-sm text-white placeholder:text-neutral-600 focus:border-brand-accent focus:outline-none"
+              />
+              <a
+                href="mailto:contact@velixo.io"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-105"
+              >
+                Send Message
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
           </div>
         </div>
+
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-neutral-800 pt-8 md:flex-row">
           <p className="text-sm text-neutral-600">
-            © {new Date().getFullYear()} Porsche Cars North America, Inc. All rights reserved.
+            © {new Date().getFullYear()} velixo.io. All rights reserved.
           </p>
-          <div className="flex gap-6 text-sm text-neutral-600">
-            <Link href="#" className="hover:text-white">Privacy</Link>
-            <Link href="#" className="hover:text-white">Terms</Link>
-            <Link href="#" className="hover:text-white">Cookies</Link>
-          </div>
         </div>
       </div>
     </footer>
@@ -1351,12 +1314,13 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <HeroScrollFrames />
+        <ShowcaseIntro />
         <Marquee />
         <Performance />
         <Design />
         <Engine />
         <Technology />
-        <Configure />
+        <ServicesShowcase />
         <Gallery />
         <Reviews />
         <FAQ />
