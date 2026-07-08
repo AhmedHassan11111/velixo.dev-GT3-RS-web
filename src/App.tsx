@@ -15,6 +15,8 @@ import {
   X,
   Phone,
   MapPin,
+  Instagram,
+  Linkedin,
 } from "lucide-react";
 import React, { useEffect, useRef, useState, ReactNode, MouseEventHandler } from "react";
 import gsap from "gsap";
@@ -1446,6 +1448,36 @@ function Footer() {
                 <ArrowRight className="h-4 w-4" />
               </a>
             </div>
+
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-700 text-neutral-400 transition-all duration-300 hover:border-electric-blue hover:text-electric-blue hover:scale-110"
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X (Twitter)"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-700 text-neutral-400 transition-all duration-300 hover:border-electric-blue hover:text-electric-blue hover:scale-110"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.91l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-700 text-neutral-400 transition-all duration-300 hover:border-electric-blue hover:text-electric-blue hover:scale-110"
+              >
+                <Linkedin className="h-5 w-5" />
+              </a>
+            </div>
           </div>
         </div>
 
@@ -1554,7 +1586,7 @@ export default function Home() {
       </AnimatePresence>
       <ScrollProgress />
       <Header />
-      <main className="flex-1 bg-black">
+      <main className="flex-1">
         <HeroScrollFrames />
         <div id="content-wrapper" className="relative z-10 rounded-t-[2rem] bg-white" style={{ marginTop: "-2rem" }}>
           <ShowcaseIntro />
