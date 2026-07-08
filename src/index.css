@@ -1,10 +1,20 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-accent: #E8E8E8;
+  --color-brand-accent-dim: #B0B0B0;
+  --color-electric-blue: #0066FF;
+  --color-electric-blue-bright: #3385FF;
+  --color-electric-blue-deep: #0047CC;
+}
+
 @layer base {
-  html,
+  html {
+    scroll-behavior: smooth;
+  }
   body,
   #root {
-    background-color: #000000;
+    background-color: #ffffff;
     color: #ffffff;
     margin: 0;
     padding: 0;
@@ -22,5 +32,19 @@
 
 .animate-marquee {
   animation: marquee 20s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-marquee {
+    animation: none !important;
+  }
 }
 

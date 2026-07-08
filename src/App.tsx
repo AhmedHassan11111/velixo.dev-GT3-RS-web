@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "motion/react";
 import {
   ArrowRight,
   Gauge,
@@ -491,9 +491,12 @@ function drawProceduralFallback(ctx: CanvasRenderingContext2D, index: number, w:
 }
 
 function HeroScrollFrames() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);  // outer tall section (700vh)
+  const stickyRef   = useRef<HTMLDivElement>(null);   // inner sticky card
+  const canvasRef   = useRef<HTMLCanvasElement>(null);
+  const imagesRef   = useRef<HTMLImageElement[]>([]);
+  const stackOverlayRef = useRef<HTMLDivElement>(null);
+  const currentFrameRef = useRef(0);
   const [loaded, setLoaded] = useState(0);
   const [currentFrame, setCurrentFrame] = useState(1);
 
@@ -606,38 +609,66 @@ function HeroScrollFrames() {
     ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
   };
 
-  // Scroll-driven frame update
+  // ── Scroll-driven frame animation (CSS sticky → no GSAP pin) ──
   useEffect(() => {
     if (loaded < TOTAL_FRAMES) return;
 
-    const ctx = gsap.context(() => {
+    drawFrame(0);
+
+    const handleScroll = () => {
       const section = containerRef.current;
       if (!section) return;
+      const scrollY     = window.scrollY;
+      const sectionTop  = section.offsetTop;
+      const scrollDist  = window.innerHeight * 6; // 600vh of travel
+      const progress    = Math.max(0, Math.min(1, (scrollY - sectionTop) / scrollDist));
+      const frameIndex  = Math.round(progress * (TOTAL_FRAMES - 1));
+      if (frameIndex !== currentFrameRef.current) {
+        currentFrameRef.current = frameIndex;
+        setCurrentFrame(frameIndex + 1);
+        drawFrame(frameIndex);
+      }
+    };
 
-      gsap.to(
-        { frame: 0 },
-        {
-          frame: TOTAL_FRAMES - 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: "+=600%",
-            scrub: 1.8,
-            pin: true,
-            onUpdate: (self: any) => {
-              const frameIndex = Math.round(self.progress * (TOTAL_FRAMES - 1));
-              setCurrentFrame(frameIndex + 1);
-              drawFrame(frameIndex);
-            },
-          },
-        }
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded]);
+
+  // ── Stacking effect: hero card scales back as content wrapper slides over it ──
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const sticky  = stickyRef.current;
+      const overlay = stackOverlayRef.current;
+      if (!sticky) return;
+
+      // Triggered when #content-wrapper scrolls from viewport-bottom to viewport-top
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#content-wrapper",
+          start: "top bottom",   // wrapper top hits viewport bottom
+          end:   "top top",      // wrapper top reaches viewport top
+          scrub: 1.5,
+        },
+      });
+
+      // Hero card shrinks and rounds like a card going to the back of the stack
+      tl.to(sticky, {
+        scale: 0.88,
+        borderRadius: "20px",
+        transformOrigin: "center center",
+        ease: "none",
+      }, 0);
+
+      // Dark overlay fades in to give depth
+      if (overlay) {
+        tl.to(overlay, { opacity: 0.5, ease: "none" }, 0);
+      }
+    });
+
+    return () => ctx.revert();
+  }, []);
 
   // Redraw on resize
   useEffect(() => {
@@ -651,82 +682,102 @@ function HeroScrollFrames() {
   }, [currentFrame]);
 
   return (
+    /*
+     * Outer section: 700vh tall — provides the scroll distance for the frame
+     * animation (600vh) while keeping the inner card sticky at the top.
+     * The next section (#content-wrapper) naturally slides UP over this,
+     * creating the true stacking-card effect.
+     */
     <section
       id="overview"
       ref={containerRef}
-      className="hero-canvas-section relative h-screen w-full overflow-hidden bg-black"
+      style={{ height: "700vh" }}
+      className="relative"
     >
-      {/* Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="hero-canvas"
-      />
+      {/* Inner sticky card — stays fixed at top while outer section scrolls */}
+      <div
+        ref={stickyRef}
+        className="hero-canvas-section sticky top-0 h-screen w-full overflow-hidden bg-black"
+        style={{ zIndex: 1 }}
+      >
+        {/* Canvas */}
+        <canvas ref={canvasRef} className="hero-canvas" />
 
-      {/* Loading indicator */}
-      {loaded < TOTAL_FRAMES && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black">
-          <div className="text-center">
-            <div className="mb-4 text-sm font-medium tracking-widest text-neutral-500">
-              LOADING
-            </div>
-            <div className="mx-auto h-1 w-48 overflow-hidden rounded-full bg-neutral-800">
-              <div
-                className="h-full bg-brand-accent transition-all duration-300"
-                style={{ width: `${(loaded / TOTAL_FRAMES) * 100}%` }}
-              />
-            </div>
-            <div className="mt-3 text-xs text-neutral-600">
-              {Math.round((loaded / TOTAL_FRAMES) * 100)}%
+        {/* Loading indicator */}
+        {loaded < TOTAL_FRAMES && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black">
+            <div className="text-center">
+              <div className="mb-4 text-sm font-medium tracking-widest text-neutral-500">
+                LOADING
+              </div>
+              <div className="mx-auto h-1 w-48 overflow-hidden rounded-full bg-neutral-800">
+                <div
+                  className="h-full bg-electric-blue transition-all duration-300"
+                  style={{ width: `${(loaded / TOTAL_FRAMES) * 100}%` }}
+                />
+              </div>
+              <div className="mt-3 text-xs text-neutral-600">
+                {Math.round((loaded / TOTAL_FRAMES) * 100)}%
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Overlay content — visible during first portion of scroll */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-      <div className="hero-overlay absolute inset-x-0 bottom-0 top-0 flex flex-col justify-end items-start px-6 pb-20 pt-24 md:px-12 md:pb-28 max-w-4xl text-left">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="max-w-xl"
-        >
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-black/60 px-3 py-1 text-[10px] font-medium tracking-widest text-neutral-300 backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-accent animate-pulse" />
-            NEW 2025 MODEL
-          </div>
-          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-5xl">
-            911 GT3 RS
-          </h1>
-          <p className="mt-3 text-sm text-neutral-400 sm:text-base leading-relaxed">
-            Born from the track. Built for the road. The most extreme
-            road-legal 911 in history.
-          </p>
-          <p className="mt-2 text-xs text-neutral-500 sm:text-sm">
-            Developed by velixo.io — contact me to chat about your next web project.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <Link
-              href="mailto:contact@velixo.io"
-              className="group inline-flex items-center gap-2 rounded-full bg-brand-accent px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105"
-            >
-              Send Message
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="#performance"
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-black/65 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-neutral-950"
-            >
-              Explore performance
-            </Link>
-          </div>
-        </motion.div>
+        {/* Dark overlay — fades in during stacking transition (GSAP-driven) */}
+        <div
+          ref={stackOverlayRef}
+          className="absolute inset-0 bg-black pointer-events-none"
+          style={{ opacity: 0 }}
+        />
 
-        {/* Scroll indicator - absolute bottom right or kept centered but small */}
-        <div className="absolute bottom-6 right-6 md:right-12">
-          <div className="scroll-indicator flex items-center gap-2 text-neutral-500">
-            <span className="text-[10px] tracking-widest font-mono">SCROLL TO EXPLORE</span>
-            <ChevronDown className="h-4 w-4 animate-bounce" />
+        {/* Gradient vignette at the bottom */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+        {/* Hero text content */}
+        <div className="hero-overlay absolute inset-x-0 bottom-0 top-0 flex flex-col justify-end items-start px-6 pb-20 pt-24 md:px-12 md:pb-28 max-w-4xl text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="max-w-xl"
+          >
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-black/60 px-3 py-1 text-[10px] font-medium tracking-widest text-neutral-300 backdrop-blur-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-electric-blue animate-pulse" />
+              NEW 2025 MODEL
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-5xl">
+              911 GT3 RS
+            </h1>
+            <p className="mt-3 text-sm text-neutral-400 sm:text-base leading-relaxed">
+              Born from the track. Built for the road. The most extreme
+              road-legal 911 in history.
+            </p>
+            <p className="mt-2 text-xs text-neutral-500 sm:text-sm">
+              Developed by velixo.io — contact me to chat about your next web project.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <MagneticButton
+                href="mailto:contact@velixo.io"
+                className="group inline-flex items-center gap-2 rounded-full bg-electric-blue px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-electric-blue-bright"
+              >
+                Send Message
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              </MagneticButton>
+              <MagneticButton
+                href="#performance"
+                className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-black/65 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-neutral-950"
+              >
+                Explore performance
+              </MagneticButton>
+            </div>
+          </motion.div>
+
+          {/* Scroll indicator */}
+          <div className="absolute bottom-6 right-6 md:right-12">
+            <div className="scroll-indicator flex items-center gap-2 text-neutral-500">
+              <span className="text-[10px] tracking-widest font-mono">SCROLL TO EXPLORE</span>
+              <ChevronDown className="h-4 w-4 animate-bounce" />
+            </div>
           </div>
         </div>
       </div>
@@ -777,7 +828,7 @@ function Header() {
     <header className={`fixed top-0 left-0 z-50 w-full border-b border-transparent bg-transparent transition-all duration-500 ${inHero ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-full pointer-events-none"}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center text-xl font-bold tracking-tight text-white">
-          velixo<span className="text-brand-accent">.io</span>
+          velixo<span className="text-electric-blue">.io</span>
         </Link>
 
         <nav className="hidden items-center gap-7 text-sm font-medium text-neutral-400 lg:flex">
@@ -795,7 +846,7 @@ function Header() {
         <div className="hidden items-center gap-4 lg:flex">
           <Link
             href="#configure"
-            className="rounded-full bg-brand-accent px-5 py-2 text-sm font-semibold text-white transition-transform hover:scale-105"
+            className="rounded-full bg-electric-blue px-5 py-2 text-sm font-semibold text-white transition-transform hover:scale-105 hover:bg-electric-blue-bright"
           >
             Build & Order
           </Link>
@@ -830,7 +881,7 @@ function Header() {
             <Link
               href="#configure"
               onClick={() => setMobileOpen(false)}
-              className="mt-2 rounded-full bg-brand-accent px-4 py-2 text-center text-sm font-semibold text-white"
+              className="mt-2 rounded-full bg-electric-blue px-4 py-2 text-center text-sm font-semibold text-white"
             >
               Build & Order
             </Link>
@@ -856,9 +907,9 @@ function Marquee() {
     <div className="border-y border-neutral-800 bg-black py-5 overflow-hidden">
       <div className="flex animate-marquee whitespace-nowrap">
         {[...items, ...items].map((item, i) => (
-          <span key={i} className="mx-8 text-sm font-bold tracking-widest text-neutral-500">
+          <span key={i} className="mx-8 text-sm font-bold tracking-widest text-brand-accent">
             {item}
-            <span className="ml-8 text-brand-accent">●</span>
+            <span className="ml-8 text-electric-blue">●</span>
           </span>
         ))}
       </div>
@@ -867,12 +918,27 @@ function Marquee() {
 }
 
 function Performance() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+
   return (
-    <section id="performance" className="relative bg-[url('/section3.jpg')] bg-cover bg-center py-24 sm:py-32">
+    <section id="performance" ref={ref} className="relative overflow-hidden py-24 sm:py-32">
+      <motion.div style={{ y: bgY }} className="absolute inset-0 -top-[15%] h-[130%]">
+        <img src="/section3.jpg" alt="" className="h-full w-full object-cover" />
+      </motion.div>
       <div className="absolute inset-0 bg-black/70" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-bold tracking-widest text-brand-accent">PERFORMANCE</p>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-sm font-bold tracking-widest text-electric-blue"
+          >
+            PERFORMANCE
+          </motion.p>
           <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Numbers that speak for themselves
           </h2>
@@ -886,13 +952,13 @@ function Performance() {
           {performanceSpecs.map((spec, i) => (
             <motion.div
               key={spec.label}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
+              viewport={{ once: true, margin: "-10px" }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8 text-center"
             >
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-accent/10 text-brand-accent">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-electric-blue/10 text-electric-blue">
                 {spec.icon}
               </div>
               <div className="perf-number text-5xl font-extrabold text-white">
@@ -916,36 +982,43 @@ function Design() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="text-sm font-bold tracking-widest text-brand-accent">DESIGN</p>
+            <p className="text-sm font-bold tracking-widest text-electric-blue">DESIGN</p>
             <h2 className="mt-3 text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl">
-              Form follows <span className="font-serif italic text-brand-accent">function</span>
+              Form follows <span className="font-serif italic text-electric-blue">function</span>
             </h2>
             <p className="mt-6 text-lg text-neutral-600">
               Every vent, every wing, every surface serves a purpose. The GT3 RS
               is sculpted by the wind tunnel and validated on the racetrack.
             </p>
-            <div className="mt-8 space-y-6">
-              {designFeatures.map((feature) => (
-                <div key={feature.title} className="border-l-2 border-brand-accent pl-6">
+            <div className="mt-8 space-y-4">
+              {designFeatures.map((feature, i) => (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.5, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                  className="rounded-xl bg-electric-blue/5 p-5"
+                >
                   <h3 className="text-lg font-semibold text-neutral-900">{feature.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-neutral-600">
                     {feature.description}
                   </p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: 0.15 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             className="relative overflow-hidden rounded-3xl"
           >
             <img
@@ -955,7 +1028,7 @@ function Design() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6">
-              <p className="text-sm font-medium tracking-widest text-brand-accent">AERODYNAMICS</p>
+              <p className="text-sm font-medium tracking-widest text-electric-blue">AERODYNAMICS</p>
               <p className="mt-1 text-2xl font-bold text-white">Active rear wing with DRS</p>
             </div>
           </motion.div>
@@ -967,14 +1040,22 @@ function Design() {
 
 function Engine() {
   return (
-    <section id="engine" className="bg-[#D4B896] py-24 sm:py-32">
+    <section id="engine" className="bg-black py-24 sm:py-32">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <p className="text-sm font-bold tracking-widest text-[#4A2C2A]">POWERTRAIN</p>
-          <h2 className="mt-3 text-4xl font-bold tracking-tight text-[#4A2C2A] sm:text-5xl">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-sm font-bold tracking-widest text-electric-blue"
+          >
+            POWERTRAIN
+          </motion.p>
+          <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
             The heart of a racer
           </h2>
-          <p className="mt-4 text-lg text-[#4A2C2A]">
+          <p className="mt-4 text-lg text-neutral-400">
             A naturally aspirated 4.0-liter flat-six that revs to 9,000 rpm —
             derived directly from the 911 RSR GT racing car.
           </p>
@@ -984,23 +1065,27 @@ function Engine() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
-          className="mt-12 overflow-hidden rounded-2xl border border-[#4A2C2A]/30"
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-12 overflow-hidden rounded-2xl border border-neutral-800"
         >
           <table className="w-full text-left">
             <tbody>
               {engineSpecs.map((spec, i) => (
-                <tr
+                <motion.tr
                   key={spec.label}
-                  className={i % 2 === 0 ? "bg-[#4A2C2A]/10" : "bg-[#4A2C2A]/5"}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                  className={i % 2 === 0 ? "bg-neutral-900/50" : "bg-black"}
                 >
-                  <td className="px-6 py-4 text-sm font-medium text-[#4A2C2A]">
+                  <td className="px-6 py-4 text-sm font-medium text-neutral-400">
                     {spec.label}
                   </td>
-                  <td className="px-6 py-4 text-right text-sm font-semibold text-[#4A2C2A]">
+                  <td className="px-6 py-4 text-right text-sm font-semibold text-white">
                     {spec.value}
                   </td>
-                </tr>
+                </motion.tr>
               ))}
             </tbody>
           </table>
@@ -1015,7 +1100,15 @@ function Technology() {
     <section id="technology" className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-bold tracking-widest text-brand-accent">TECHNOLOGY</p>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-sm font-bold tracking-widest text-electric-blue"
+          >
+            TECHNOLOGY
+          </motion.p>
           <h2 className="mt-3 text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl">
             Engineered for the apex
           </h2>
@@ -1029,12 +1122,12 @@ function Technology() {
           {techFeatures.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
+              viewport={{ once: true, margin: "-10px" }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ y: -14, scale: 1.03 }}
-              className="group relative min-h-[420px] cursor-pointer overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-lg transition-all duration-500 hover:border-brand-accent hover:shadow-2xl hover:shadow-brand-accent/10"
+              className="group relative min-h-[420px] cursor-pointer overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-lg transition-all duration-500 hover:border-electric-blue hover:shadow-2xl hover:shadow-electric-blue/10"
             >
               <div
                 className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110"
@@ -1048,7 +1141,7 @@ function Technology() {
               <div className="absolute inset-0 bg-black/20 transition-colors duration-500 group-hover:bg-black/10" />
 
               <div className="relative z-10 flex h-full flex-col justify-end p-7">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-accent/20 text-brand-accent transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-accent group-hover:text-white">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-electric-blue/20 text-electric-blue transition-all duration-300 group-hover:scale-110 group-hover:bg-electric-blue group-hover:text-white">
                   {item.icon}
                 </div>
                 <h3 className="text-xl font-bold text-white">{item.title}</h3>
@@ -1120,39 +1213,71 @@ function ServicesShowcase() {
 }
 
 function Gallery() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
+  const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 1.05]);
+
   return (
-    <section id="gallery" className="bg-neutral-950 py-24 sm:py-32">
+    <section id="gallery" ref={ref} className="bg-black py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Every angle, perfection
           </h2>
-          <p className="mt-6 text-lg font-light tracking-wide leading-relaxed text-neutral-400">
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-6 text-lg font-light tracking-wide leading-relaxed text-neutral-400"
+          >
             Showcase all the elements of your product with clarity and a modern touch, while still allowing customers to choose the price.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="mt-16" style={{ padding: "0 20px" }}>
-          <img
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, filter: "blur(15px)" }}
+          whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-16 overflow-hidden rounded-2xl"
+          style={{ padding: "0 20px" }}
+        >
+          <motion.img
             src="/dark.jpg"
             alt="Showcase"
             className="w-full rounded-2xl object-cover"
-            style={{ height: "calc(100vh - 10px)", minHeight: "70vh", objectPosition: "center 60%" }}
+            style={{ y: imgY, scale: imgScale, height: "calc(100vh - 10px)", minHeight: "70vh", objectPosition: "center 60%" }}
           />
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
 
 function Reviews() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+
   return (
-    <section className="relative bg-black py-24 sm:py-32">
-      <div className="absolute inset-0 bg-[url('/white.jpg')] bg-cover bg-center" />
+    <section ref={ref} className="relative overflow-hidden bg-black py-24 sm:py-32">
+      <motion.div style={{ y: bgY }} className="absolute inset-0 -top-[20%] h-[140%]">
+        <img src="/white.jpg" alt="" className="h-full w-full object-cover" />
+      </motion.div>
       <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-bold tracking-widest text-brand-accent">REVIEWS</p>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-sm font-bold tracking-widest text-electric-blue"
+          >
+            REVIEWS
+          </motion.p>
           <h2 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
             The critics agree
           </h2>
@@ -1162,13 +1287,14 @@ function Reviews() {
           {reviews.map((review, i) => (
             <motion.div
               key={review.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40, rotateX: -15 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
+              transition={{ duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              style={{ transformOrigin: "bottom" }}
               className="rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8"
             >
-              <p className="text-sm font-bold tracking-widest text-brand-accent">
+              <p className="text-sm font-bold tracking-widest text-electric-blue">
                 {review.role}
               </p>
               <p className="mt-4 text-lg leading-relaxed text-neutral-300">
@@ -1190,7 +1316,15 @@ function FAQ() {
     <section id="faq" className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <p className="text-sm font-bold tracking-widest text-brand-accent">FAQ</p>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="text-sm font-bold tracking-widest text-electric-blue"
+          >
+            FAQ
+          </motion.p>
           <h2 className="mt-3 text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl">
             Questions, answered
           </h2>
@@ -1198,8 +1332,12 @@ function FAQ() {
 
         <div className="mt-12 space-y-4">
           {faqs.map((faq, i) => (
-            <div
+            <motion.div
               key={i}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.4, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="rounded-2xl border border-neutral-200 bg-neutral-50 p-6"
             >
               <button
@@ -1222,7 +1360,7 @@ function FAQ() {
                   {faq.answer}
                 </motion.p>
               )}
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -1231,31 +1369,44 @@ function FAQ() {
 }
 
 function CTA() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const glowOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.5, 0]);
+
   return (
-    <section className="relative overflow-hidden bg-brand-accent py-24 sm:py-32">
-      <div className="absolute inset-0 grain-overlay" />
+    <section ref={ref} className="relative overflow-hidden bg-black py-24 sm:py-32">
+      <motion.div
+        style={{ opacity: glowOpacity }}
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-electric-blue/20 blur-[100px]"
+      />
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
         <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
           Make your website more elegant and modern.
         </h2>
-        <p className="mt-4 text-lg text-white/80">
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-4 text-lg text-neutral-400"
+        >
           Your website is the mirror that reflects your product's identity. Don't hesitate to make it modern and premium.
-        </p>
+        </motion.p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link
+          <MagneticButton
             href="#configure"
-            className="inline-flex items-center gap-2 rounded-full bg-black px-7 py-3.5 text-base font-semibold text-white transition-transform hover:scale-105"
+            className="inline-flex items-center gap-2 rounded-full bg-electric-blue px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-electric-blue-bright"
           >
             Build & Order
             <ArrowRight className="h-4 w-4" />
-          </Link>
-          <a
+          </MagneticButton>
+          <MagneticButton
             href="mailto:contact@velixo.io"
-            className="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-black/20"
+            className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/10"
           >
             <Phone className="h-4 w-4" />
             Send Message
-          </a>
+          </MagneticButton>
         </div>
       </div>
     </section>
@@ -1269,7 +1420,7 @@ function Footer() {
         <div className="grid gap-8 md:grid-cols-2">
           <div>
             <Link href="/" className="flex items-center text-xl font-bold tracking-tight text-white">
-              velixo<span className="text-brand-accent">.io</span>
+              velixo<span className="text-electric-blue">.io</span>
             </Link>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-500">
               Our services are distinguished by quality, fast delivery, and after-sales support. We can create anything, regardless of the type of service you provide. Just get in touch with us.
@@ -1285,11 +1436,11 @@ function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 rounded-full border border-neutral-700 bg-neutral-900 px-5 py-3 text-sm text-white placeholder:text-neutral-600 focus:border-brand-accent focus:outline-none"
+                className="flex-1 rounded-full border border-neutral-700 bg-neutral-900 px-5 py-3 text-sm text-white placeholder:text-neutral-600 focus:border-electric-blue focus:outline-none"
               />
               <a
                 href="mailto:contact@velixo.io"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-105"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-electric-blue px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-105 hover:bg-electric-blue-bright"
               >
                 Send Message
                 <ArrowRight className="h-4 w-4" />
@@ -1308,23 +1459,116 @@ function Footer() {
   );
 }
 
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  return (
+    <motion.div
+      style={{ scaleX, transformOrigin: "left" }}
+      className="fixed left-0 right-0 top-0 z-[60] h-[2px] bg-electric-blue"
+    />
+  );
+}
+
+function LoadingScreen({ onComplete }: { onComplete: () => void }) {
+  useEffect(() => {
+    const timer = setTimeout(onComplete, 2600);
+    return () => clearTimeout(timer);
+  }, [onComplete]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
+    >
+      <motion.div
+        initial={{ scale: 1, opacity: 1 }}
+        exit={{
+          scale: 0.15,
+          x: "-44vw",
+          y: "-42vh",
+          opacity: 0,
+          transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+        }}
+        className="text-5xl font-bold tracking-tight text-white sm:text-7xl"
+      >
+        velixo<span className="text-electric-blue">.io</span>
+      </motion.div>
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+        style={{ transformOrigin: "left" }}
+        className="absolute bottom-0 left-0 h-[3px] w-full bg-electric-blue"
+      />
+    </motion.div>
+  );
+}
+
+function MagneticButton({ href, children, className, onClick }: { href: string; children: ReactNode; className?: string; onClick?: MouseEventHandler<HTMLAnchorElement> }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 300, damping: 25 });
+  const springY = useSpring(y, { stiffness: 300, damping: 25 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) * 0.3);
+    y.set((e.clientY - centerY) * 0.3);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      className={className}
+      onClick={onClick}
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      whileTap={{ scale: 0.95 }}
+    >
+      {children}
+    </motion.a>
+  );
+}
+
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
   return (
     <>
+      <AnimatePresence>
+        {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+      </AnimatePresence>
+      <ScrollProgress />
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 bg-black">
         <HeroScrollFrames />
-        <ShowcaseIntro />
-        <Marquee />
-        <Performance />
-        <Design />
-        <Engine />
-        <Technology />
-        <ServicesShowcase />
-        <Gallery />
-        <Reviews />
-        <FAQ />
-        <CTA />
+        <div id="content-wrapper" className="relative z-10 rounded-t-[2rem] bg-white" style={{ marginTop: "-2rem" }}>
+          <ShowcaseIntro />
+          <Marquee />
+          <Performance />
+          <Design />
+          <Engine />
+          <Technology />
+          <ServicesShowcase />
+          <Gallery />
+          <Reviews />
+          <FAQ />
+          <CTA />
+        </div>
       </main>
       <Footer />
     </>
