@@ -1,0 +1,2203 @@
+{
+  "content": {
+    "section": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/section/section-640.avif",
+          "webp": "/gen/section/section-640.webp",
+          "jpg": "/gen/section/section-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/section/section-1024.avif",
+          "webp": "/gen/section/section-1024.webp",
+          "jpg": "/gen/section/section-1024.jpg"
+        },
+        {
+          "width": 1600,
+          "avif": "/gen/section/section-1600.avif",
+          "webp": "/gen/section/section-1600.webp",
+          "jpg": "/gen/section/section-1600.jpg"
+        },
+        {
+          "width": 2400,
+          "avif": "/gen/section/section-2400.avif",
+          "webp": "/gen/section/section-2400.webp",
+          "jpg": "/gen/section/section-2400.jpg"
+        }
+      ],
+      "jpg": "/gen/section/section.jpg",
+      "sizes": "(max-width:768px) 100vw, 80vw",
+      "eager": true
+    },
+    "section3": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/section3/section3-640.avif",
+          "webp": "/gen/section3/section3-640.webp",
+          "jpg": "/gen/section3/section3-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/section3/section3-1024.avif",
+          "webp": "/gen/section3/section3-1024.webp",
+          "jpg": "/gen/section3/section3-1024.jpg"
+        },
+        {
+          "width": 1600,
+          "avif": "/gen/section3/section3-1600.avif",
+          "webp": "/gen/section3/section3-1600.webp",
+          "jpg": "/gen/section3/section3-1600.jpg"
+        },
+        {
+          "width": 2400,
+          "avif": "/gen/section3/section3-2400.avif",
+          "webp": "/gen/section3/section3-2400.webp",
+          "jpg": "/gen/section3/section3-2400.jpg"
+        }
+      ],
+      "jpg": "/gen/section3/section3.jpg",
+      "sizes": "(max-width:768px) 100vw, 80vw",
+      "eager": true
+    },
+    "section4": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/section4/section4-640.avif",
+          "webp": "/gen/section4/section4-640.webp",
+          "jpg": "/gen/section4/section4-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/section4/section4-1024.avif",
+          "webp": "/gen/section4/section4-1024.webp",
+          "jpg": "/gen/section4/section4-1024.jpg"
+        },
+        {
+          "width": 1600,
+          "avif": "/gen/section4/section4-1600.avif",
+          "webp": "/gen/section4/section4-1600.webp",
+          "jpg": "/gen/section4/section4-1600.jpg"
+        },
+        {
+          "width": 2400,
+          "avif": "/gen/section4/section4-2400.avif",
+          "webp": "/gen/section4/section4-2400.webp",
+          "jpg": "/gen/section4/section4-2400.jpg"
+        }
+      ],
+      "jpg": "/gen/section4/section4.jpg",
+      "sizes": "(max-width:768px) 100vw, 80vw",
+      "eager": true
+    },
+    "dark": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/dark/dark-640.avif",
+          "webp": "/gen/dark/dark-640.webp",
+          "jpg": "/gen/dark/dark-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/dark/dark-1024.avif",
+          "webp": "/gen/dark/dark-1024.webp",
+          "jpg": "/gen/dark/dark-1024.jpg"
+        }
+      ],
+      "jpg": "/gen/dark/dark.jpg",
+      "sizes": "(max-width:768px) 100vw, 80vw",
+      "eager": true
+    }
+  },
+  "cards": {
+    "thirdcard": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/thirdcard/thirdcard-640.avif",
+          "webp": "/gen/thirdcard/thirdcard-640.webp",
+          "jpg": "/gen/thirdcard/thirdcard-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/thirdcard/thirdcard-1024.avif",
+          "webp": "/gen/thirdcard/thirdcard-1024.webp",
+          "jpg": "/gen/thirdcard/thirdcard-1024.jpg"
+        },
+        {
+          "width": 1600,
+          "avif": "/gen/thirdcard/thirdcard-1600.avif",
+          "webp": "/gen/thirdcard/thirdcard-1600.webp",
+          "jpg": "/gen/thirdcard/thirdcard-1600.jpg"
+        }
+      ],
+      "jpg": "/gen/thirdcard/thirdcard.jpg",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "eager": false
+    },
+    "fhotoone": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/fhotoone/fhotoone-640.avif",
+          "webp": "/gen/fhotoone/fhotoone-640.webp",
+          "jpg": "/gen/fhotoone/fhotoone-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/fhotoone/fhotoone-1024.avif",
+          "webp": "/gen/fhotoone/fhotoone-1024.webp",
+          "jpg": "/gen/fhotoone/fhotoone-1024.jpg"
+        },
+        {
+          "width": 1600,
+          "avif": "/gen/fhotoone/fhotoone-1600.avif",
+          "webp": "/gen/fhotoone/fhotoone-1600.webp",
+          "jpg": "/gen/fhotoone/fhotoone-1600.jpg"
+        }
+      ],
+      "jpg": "/gen/fhotoone/fhotoone.jpg",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "eager": false
+    },
+    "fhoto2": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/fhoto2/fhoto2-640.avif",
+          "webp": "/gen/fhoto2/fhoto2-640.webp",
+          "jpg": "/gen/fhoto2/fhoto2-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/fhoto2/fhoto2-1024.avif",
+          "webp": "/gen/fhoto2/fhoto2-1024.webp",
+          "jpg": "/gen/fhoto2/fhoto2-1024.jpg"
+        }
+      ],
+      "jpg": "/gen/fhoto2/fhoto2.jpg",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "eager": false
+    },
+    "fhoto3": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/fhoto3/fhoto3-640.avif",
+          "webp": "/gen/fhoto3/fhoto3-640.webp",
+          "jpg": "/gen/fhoto3/fhoto3-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/fhoto3/fhoto3-1024.avif",
+          "webp": "/gen/fhoto3/fhoto3-1024.webp",
+          "jpg": "/gen/fhoto3/fhoto3-1024.jpg"
+        }
+      ],
+      "jpg": "/gen/fhoto3/fhoto3.jpg",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "eager": false
+    },
+    "fhoto4": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/fhoto4/fhoto4-640.avif",
+          "webp": "/gen/fhoto4/fhoto4-640.webp",
+          "jpg": "/gen/fhoto4/fhoto4-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/fhoto4/fhoto4-1024.avif",
+          "webp": "/gen/fhoto4/fhoto4-1024.webp",
+          "jpg": "/gen/fhoto4/fhoto4-1024.jpg"
+        }
+      ],
+      "jpg": "/gen/fhoto4/fhoto4.jpg",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "eager": false
+    },
+    "white": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/white/white-640.avif",
+          "webp": "/gen/white/white-640.webp",
+          "jpg": "/gen/white/white-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/white/white-1024.avif",
+          "webp": "/gen/white/white-1024.webp",
+          "jpg": "/gen/white/white-1024.jpg"
+        },
+        {
+          "width": 1600,
+          "avif": "/gen/white/white-1600.avif",
+          "webp": "/gen/white/white-1600.webp",
+          "jpg": "/gen/white/white-1600.jpg"
+        }
+      ],
+      "jpg": "/gen/white/white.jpg",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "eager": false
+    },
+    "tech-pasm": {
+      "variants": [],
+      "jpg": "/gen/tech-pasm/tech-pasm.jpg",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "eager": false
+    },
+    "tech-drs": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/tech-drs/tech-drs-640.avif",
+          "webp": "/gen/tech-drs/tech-drs-640.webp",
+          "jpg": "/gen/tech-drs/tech-drs-640.jpg"
+        },
+        {
+          "width": 1024,
+          "avif": "/gen/tech-drs/tech-drs-1024.avif",
+          "webp": "/gen/tech-drs/tech-drs-1024.webp",
+          "jpg": "/gen/tech-drs/tech-drs-1024.jpg"
+        }
+      ],
+      "jpg": "/gen/tech-drs/tech-drs.jpg",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "eager": false
+    },
+    "tech-telemetry": {
+      "variants": [],
+      "jpg": "/gen/tech-telemetry/tech-telemetry.jpg",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "eager": false
+    }
+  },
+  "hero": {
+    "desktopWidth": 1280,
+    "mobileWidth": 640,
+    "total": 174,
+    "frames": [
+      {
+        "index": 1,
+        "desktop": {
+          "avif": "/gen/hero/001-d.avif",
+          "webp": "/gen/hero/001-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/001-m.avif",
+          "webp": "/gen/hero/001-m.webp"
+        }
+      },
+      {
+        "index": 2,
+        "desktop": {
+          "avif": "/gen/hero/002-d.avif",
+          "webp": "/gen/hero/002-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/002-m.avif",
+          "webp": "/gen/hero/002-m.webp"
+        }
+      },
+      {
+        "index": 3,
+        "desktop": {
+          "avif": "/gen/hero/003-d.avif",
+          "webp": "/gen/hero/003-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/003-m.avif",
+          "webp": "/gen/hero/003-m.webp"
+        }
+      },
+      {
+        "index": 4,
+        "desktop": {
+          "avif": "/gen/hero/004-d.avif",
+          "webp": "/gen/hero/004-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/004-m.avif",
+          "webp": "/gen/hero/004-m.webp"
+        }
+      },
+      {
+        "index": 5,
+        "desktop": {
+          "avif": "/gen/hero/005-d.avif",
+          "webp": "/gen/hero/005-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/005-m.avif",
+          "webp": "/gen/hero/005-m.webp"
+        }
+      },
+      {
+        "index": 6,
+        "desktop": {
+          "avif": "/gen/hero/006-d.avif",
+          "webp": "/gen/hero/006-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/006-m.avif",
+          "webp": "/gen/hero/006-m.webp"
+        }
+      },
+      {
+        "index": 7,
+        "desktop": {
+          "avif": "/gen/hero/007-d.avif",
+          "webp": "/gen/hero/007-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/007-m.avif",
+          "webp": "/gen/hero/007-m.webp"
+        }
+      },
+      {
+        "index": 8,
+        "desktop": {
+          "avif": "/gen/hero/008-d.avif",
+          "webp": "/gen/hero/008-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/008-m.avif",
+          "webp": "/gen/hero/008-m.webp"
+        }
+      },
+      {
+        "index": 9,
+        "desktop": {
+          "avif": "/gen/hero/009-d.avif",
+          "webp": "/gen/hero/009-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/009-m.avif",
+          "webp": "/gen/hero/009-m.webp"
+        }
+      },
+      {
+        "index": 10,
+        "desktop": {
+          "avif": "/gen/hero/010-d.avif",
+          "webp": "/gen/hero/010-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/010-m.avif",
+          "webp": "/gen/hero/010-m.webp"
+        }
+      },
+      {
+        "index": 11,
+        "desktop": {
+          "avif": "/gen/hero/011-d.avif",
+          "webp": "/gen/hero/011-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/011-m.avif",
+          "webp": "/gen/hero/011-m.webp"
+        }
+      },
+      {
+        "index": 12,
+        "desktop": {
+          "avif": "/gen/hero/012-d.avif",
+          "webp": "/gen/hero/012-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/012-m.avif",
+          "webp": "/gen/hero/012-m.webp"
+        }
+      },
+      {
+        "index": 13,
+        "desktop": {
+          "avif": "/gen/hero/013-d.avif",
+          "webp": "/gen/hero/013-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/013-m.avif",
+          "webp": "/gen/hero/013-m.webp"
+        }
+      },
+      {
+        "index": 14,
+        "desktop": {
+          "avif": "/gen/hero/014-d.avif",
+          "webp": "/gen/hero/014-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/014-m.avif",
+          "webp": "/gen/hero/014-m.webp"
+        }
+      },
+      {
+        "index": 15,
+        "desktop": {
+          "avif": "/gen/hero/015-d.avif",
+          "webp": "/gen/hero/015-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/015-m.avif",
+          "webp": "/gen/hero/015-m.webp"
+        }
+      },
+      {
+        "index": 16,
+        "desktop": {
+          "avif": "/gen/hero/016-d.avif",
+          "webp": "/gen/hero/016-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/016-m.avif",
+          "webp": "/gen/hero/016-m.webp"
+        }
+      },
+      {
+        "index": 17,
+        "desktop": {
+          "avif": "/gen/hero/017-d.avif",
+          "webp": "/gen/hero/017-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/017-m.avif",
+          "webp": "/gen/hero/017-m.webp"
+        }
+      },
+      {
+        "index": 18,
+        "desktop": {
+          "avif": "/gen/hero/018-d.avif",
+          "webp": "/gen/hero/018-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/018-m.avif",
+          "webp": "/gen/hero/018-m.webp"
+        }
+      },
+      {
+        "index": 19,
+        "desktop": {
+          "avif": "/gen/hero/019-d.avif",
+          "webp": "/gen/hero/019-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/019-m.avif",
+          "webp": "/gen/hero/019-m.webp"
+        }
+      },
+      {
+        "index": 20,
+        "desktop": {
+          "avif": "/gen/hero/020-d.avif",
+          "webp": "/gen/hero/020-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/020-m.avif",
+          "webp": "/gen/hero/020-m.webp"
+        }
+      },
+      {
+        "index": 21,
+        "desktop": {
+          "avif": "/gen/hero/021-d.avif",
+          "webp": "/gen/hero/021-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/021-m.avif",
+          "webp": "/gen/hero/021-m.webp"
+        }
+      },
+      {
+        "index": 22,
+        "desktop": {
+          "avif": "/gen/hero/022-d.avif",
+          "webp": "/gen/hero/022-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/022-m.avif",
+          "webp": "/gen/hero/022-m.webp"
+        }
+      },
+      {
+        "index": 23,
+        "desktop": {
+          "avif": "/gen/hero/023-d.avif",
+          "webp": "/gen/hero/023-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/023-m.avif",
+          "webp": "/gen/hero/023-m.webp"
+        }
+      },
+      {
+        "index": 24,
+        "desktop": {
+          "avif": "/gen/hero/024-d.avif",
+          "webp": "/gen/hero/024-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/024-m.avif",
+          "webp": "/gen/hero/024-m.webp"
+        }
+      },
+      {
+        "index": 25,
+        "desktop": {
+          "avif": "/gen/hero/025-d.avif",
+          "webp": "/gen/hero/025-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/025-m.avif",
+          "webp": "/gen/hero/025-m.webp"
+        }
+      },
+      {
+        "index": 26,
+        "desktop": {
+          "avif": "/gen/hero/026-d.avif",
+          "webp": "/gen/hero/026-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/026-m.avif",
+          "webp": "/gen/hero/026-m.webp"
+        }
+      },
+      {
+        "index": 27,
+        "desktop": {
+          "avif": "/gen/hero/027-d.avif",
+          "webp": "/gen/hero/027-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/027-m.avif",
+          "webp": "/gen/hero/027-m.webp"
+        }
+      },
+      {
+        "index": 28,
+        "desktop": {
+          "avif": "/gen/hero/028-d.avif",
+          "webp": "/gen/hero/028-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/028-m.avif",
+          "webp": "/gen/hero/028-m.webp"
+        }
+      },
+      {
+        "index": 29,
+        "desktop": {
+          "avif": "/gen/hero/029-d.avif",
+          "webp": "/gen/hero/029-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/029-m.avif",
+          "webp": "/gen/hero/029-m.webp"
+        }
+      },
+      {
+        "index": 30,
+        "desktop": {
+          "avif": "/gen/hero/030-d.avif",
+          "webp": "/gen/hero/030-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/030-m.avif",
+          "webp": "/gen/hero/030-m.webp"
+        }
+      },
+      {
+        "index": 31,
+        "desktop": {
+          "avif": "/gen/hero/031-d.avif",
+          "webp": "/gen/hero/031-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/031-m.avif",
+          "webp": "/gen/hero/031-m.webp"
+        }
+      },
+      {
+        "index": 32,
+        "desktop": {
+          "avif": "/gen/hero/032-d.avif",
+          "webp": "/gen/hero/032-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/032-m.avif",
+          "webp": "/gen/hero/032-m.webp"
+        }
+      },
+      {
+        "index": 33,
+        "desktop": {
+          "avif": "/gen/hero/033-d.avif",
+          "webp": "/gen/hero/033-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/033-m.avif",
+          "webp": "/gen/hero/033-m.webp"
+        }
+      },
+      {
+        "index": 34,
+        "desktop": {
+          "avif": "/gen/hero/034-d.avif",
+          "webp": "/gen/hero/034-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/034-m.avif",
+          "webp": "/gen/hero/034-m.webp"
+        }
+      },
+      {
+        "index": 35,
+        "desktop": {
+          "avif": "/gen/hero/035-d.avif",
+          "webp": "/gen/hero/035-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/035-m.avif",
+          "webp": "/gen/hero/035-m.webp"
+        }
+      },
+      {
+        "index": 36,
+        "desktop": {
+          "avif": "/gen/hero/036-d.avif",
+          "webp": "/gen/hero/036-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/036-m.avif",
+          "webp": "/gen/hero/036-m.webp"
+        }
+      },
+      {
+        "index": 37,
+        "desktop": {
+          "avif": "/gen/hero/037-d.avif",
+          "webp": "/gen/hero/037-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/037-m.avif",
+          "webp": "/gen/hero/037-m.webp"
+        }
+      },
+      {
+        "index": 38,
+        "desktop": {
+          "avif": "/gen/hero/038-d.avif",
+          "webp": "/gen/hero/038-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/038-m.avif",
+          "webp": "/gen/hero/038-m.webp"
+        }
+      },
+      {
+        "index": 39,
+        "desktop": {
+          "avif": "/gen/hero/039-d.avif",
+          "webp": "/gen/hero/039-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/039-m.avif",
+          "webp": "/gen/hero/039-m.webp"
+        }
+      },
+      {
+        "index": 40,
+        "desktop": {
+          "avif": "/gen/hero/040-d.avif",
+          "webp": "/gen/hero/040-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/040-m.avif",
+          "webp": "/gen/hero/040-m.webp"
+        }
+      },
+      {
+        "index": 41,
+        "desktop": {
+          "avif": "/gen/hero/041-d.avif",
+          "webp": "/gen/hero/041-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/041-m.avif",
+          "webp": "/gen/hero/041-m.webp"
+        }
+      },
+      {
+        "index": 42,
+        "desktop": {
+          "avif": "/gen/hero/042-d.avif",
+          "webp": "/gen/hero/042-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/042-m.avif",
+          "webp": "/gen/hero/042-m.webp"
+        }
+      },
+      {
+        "index": 43,
+        "desktop": {
+          "avif": "/gen/hero/043-d.avif",
+          "webp": "/gen/hero/043-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/043-m.avif",
+          "webp": "/gen/hero/043-m.webp"
+        }
+      },
+      {
+        "index": 44,
+        "desktop": {
+          "avif": "/gen/hero/044-d.avif",
+          "webp": "/gen/hero/044-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/044-m.avif",
+          "webp": "/gen/hero/044-m.webp"
+        }
+      },
+      {
+        "index": 45,
+        "desktop": {
+          "avif": "/gen/hero/045-d.avif",
+          "webp": "/gen/hero/045-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/045-m.avif",
+          "webp": "/gen/hero/045-m.webp"
+        }
+      },
+      {
+        "index": 46,
+        "desktop": {
+          "avif": "/gen/hero/046-d.avif",
+          "webp": "/gen/hero/046-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/046-m.avif",
+          "webp": "/gen/hero/046-m.webp"
+        }
+      },
+      {
+        "index": 47,
+        "desktop": {
+          "avif": "/gen/hero/047-d.avif",
+          "webp": "/gen/hero/047-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/047-m.avif",
+          "webp": "/gen/hero/047-m.webp"
+        }
+      },
+      {
+        "index": 48,
+        "desktop": {
+          "avif": "/gen/hero/048-d.avif",
+          "webp": "/gen/hero/048-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/048-m.avif",
+          "webp": "/gen/hero/048-m.webp"
+        }
+      },
+      {
+        "index": 49,
+        "desktop": {
+          "avif": "/gen/hero/049-d.avif",
+          "webp": "/gen/hero/049-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/049-m.avif",
+          "webp": "/gen/hero/049-m.webp"
+        }
+      },
+      {
+        "index": 50,
+        "desktop": {
+          "avif": "/gen/hero/050-d.avif",
+          "webp": "/gen/hero/050-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/050-m.avif",
+          "webp": "/gen/hero/050-m.webp"
+        }
+      },
+      {
+        "index": 51,
+        "desktop": {
+          "avif": "/gen/hero/051-d.avif",
+          "webp": "/gen/hero/051-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/051-m.avif",
+          "webp": "/gen/hero/051-m.webp"
+        }
+      },
+      {
+        "index": 52,
+        "desktop": {
+          "avif": "/gen/hero/052-d.avif",
+          "webp": "/gen/hero/052-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/052-m.avif",
+          "webp": "/gen/hero/052-m.webp"
+        }
+      },
+      {
+        "index": 53,
+        "desktop": {
+          "avif": "/gen/hero/053-d.avif",
+          "webp": "/gen/hero/053-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/053-m.avif",
+          "webp": "/gen/hero/053-m.webp"
+        }
+      },
+      {
+        "index": 54,
+        "desktop": {
+          "avif": "/gen/hero/054-d.avif",
+          "webp": "/gen/hero/054-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/054-m.avif",
+          "webp": "/gen/hero/054-m.webp"
+        }
+      },
+      {
+        "index": 55,
+        "desktop": {
+          "avif": "/gen/hero/055-d.avif",
+          "webp": "/gen/hero/055-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/055-m.avif",
+          "webp": "/gen/hero/055-m.webp"
+        }
+      },
+      {
+        "index": 56,
+        "desktop": {
+          "avif": "/gen/hero/056-d.avif",
+          "webp": "/gen/hero/056-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/056-m.avif",
+          "webp": "/gen/hero/056-m.webp"
+        }
+      },
+      {
+        "index": 57,
+        "desktop": {
+          "avif": "/gen/hero/057-d.avif",
+          "webp": "/gen/hero/057-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/057-m.avif",
+          "webp": "/gen/hero/057-m.webp"
+        }
+      },
+      {
+        "index": 58,
+        "desktop": {
+          "avif": "/gen/hero/058-d.avif",
+          "webp": "/gen/hero/058-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/058-m.avif",
+          "webp": "/gen/hero/058-m.webp"
+        }
+      },
+      {
+        "index": 59,
+        "desktop": {
+          "avif": "/gen/hero/059-d.avif",
+          "webp": "/gen/hero/059-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/059-m.avif",
+          "webp": "/gen/hero/059-m.webp"
+        }
+      },
+      {
+        "index": 60,
+        "desktop": {
+          "avif": "/gen/hero/060-d.avif",
+          "webp": "/gen/hero/060-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/060-m.avif",
+          "webp": "/gen/hero/060-m.webp"
+        }
+      },
+      {
+        "index": 61,
+        "desktop": {
+          "avif": "/gen/hero/061-d.avif",
+          "webp": "/gen/hero/061-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/061-m.avif",
+          "webp": "/gen/hero/061-m.webp"
+        }
+      },
+      {
+        "index": 62,
+        "desktop": {
+          "avif": "/gen/hero/062-d.avif",
+          "webp": "/gen/hero/062-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/062-m.avif",
+          "webp": "/gen/hero/062-m.webp"
+        }
+      },
+      {
+        "index": 63,
+        "desktop": {
+          "avif": "/gen/hero/063-d.avif",
+          "webp": "/gen/hero/063-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/063-m.avif",
+          "webp": "/gen/hero/063-m.webp"
+        }
+      },
+      {
+        "index": 64,
+        "desktop": {
+          "avif": "/gen/hero/064-d.avif",
+          "webp": "/gen/hero/064-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/064-m.avif",
+          "webp": "/gen/hero/064-m.webp"
+        }
+      },
+      {
+        "index": 65,
+        "desktop": {
+          "avif": "/gen/hero/065-d.avif",
+          "webp": "/gen/hero/065-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/065-m.avif",
+          "webp": "/gen/hero/065-m.webp"
+        }
+      },
+      {
+        "index": 66,
+        "desktop": {
+          "avif": "/gen/hero/066-d.avif",
+          "webp": "/gen/hero/066-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/066-m.avif",
+          "webp": "/gen/hero/066-m.webp"
+        }
+      },
+      {
+        "index": 67,
+        "desktop": {
+          "avif": "/gen/hero/067-d.avif",
+          "webp": "/gen/hero/067-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/067-m.avif",
+          "webp": "/gen/hero/067-m.webp"
+        }
+      },
+      {
+        "index": 68,
+        "desktop": {
+          "avif": "/gen/hero/068-d.avif",
+          "webp": "/gen/hero/068-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/068-m.avif",
+          "webp": "/gen/hero/068-m.webp"
+        }
+      },
+      {
+        "index": 69,
+        "desktop": {
+          "avif": "/gen/hero/069-d.avif",
+          "webp": "/gen/hero/069-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/069-m.avif",
+          "webp": "/gen/hero/069-m.webp"
+        }
+      },
+      {
+        "index": 70,
+        "desktop": {
+          "avif": "/gen/hero/070-d.avif",
+          "webp": "/gen/hero/070-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/070-m.avif",
+          "webp": "/gen/hero/070-m.webp"
+        }
+      },
+      {
+        "index": 71,
+        "desktop": {
+          "avif": "/gen/hero/071-d.avif",
+          "webp": "/gen/hero/071-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/071-m.avif",
+          "webp": "/gen/hero/071-m.webp"
+        }
+      },
+      {
+        "index": 72,
+        "desktop": {
+          "avif": "/gen/hero/072-d.avif",
+          "webp": "/gen/hero/072-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/072-m.avif",
+          "webp": "/gen/hero/072-m.webp"
+        }
+      },
+      {
+        "index": 73,
+        "desktop": {
+          "avif": "/gen/hero/073-d.avif",
+          "webp": "/gen/hero/073-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/073-m.avif",
+          "webp": "/gen/hero/073-m.webp"
+        }
+      },
+      {
+        "index": 74,
+        "desktop": {
+          "avif": "/gen/hero/074-d.avif",
+          "webp": "/gen/hero/074-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/074-m.avif",
+          "webp": "/gen/hero/074-m.webp"
+        }
+      },
+      {
+        "index": 75,
+        "desktop": {
+          "avif": "/gen/hero/075-d.avif",
+          "webp": "/gen/hero/075-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/075-m.avif",
+          "webp": "/gen/hero/075-m.webp"
+        }
+      },
+      {
+        "index": 76,
+        "desktop": {
+          "avif": "/gen/hero/076-d.avif",
+          "webp": "/gen/hero/076-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/076-m.avif",
+          "webp": "/gen/hero/076-m.webp"
+        }
+      },
+      {
+        "index": 77,
+        "desktop": {
+          "avif": "/gen/hero/077-d.avif",
+          "webp": "/gen/hero/077-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/077-m.avif",
+          "webp": "/gen/hero/077-m.webp"
+        }
+      },
+      {
+        "index": 78,
+        "desktop": {
+          "avif": "/gen/hero/078-d.avif",
+          "webp": "/gen/hero/078-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/078-m.avif",
+          "webp": "/gen/hero/078-m.webp"
+        }
+      },
+      {
+        "index": 79,
+        "desktop": {
+          "avif": "/gen/hero/079-d.avif",
+          "webp": "/gen/hero/079-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/079-m.avif",
+          "webp": "/gen/hero/079-m.webp"
+        }
+      },
+      {
+        "index": 80,
+        "desktop": {
+          "avif": "/gen/hero/080-d.avif",
+          "webp": "/gen/hero/080-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/080-m.avif",
+          "webp": "/gen/hero/080-m.webp"
+        }
+      },
+      {
+        "index": 81,
+        "desktop": {
+          "avif": "/gen/hero/081-d.avif",
+          "webp": "/gen/hero/081-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/081-m.avif",
+          "webp": "/gen/hero/081-m.webp"
+        }
+      },
+      {
+        "index": 82,
+        "desktop": {
+          "avif": "/gen/hero/082-d.avif",
+          "webp": "/gen/hero/082-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/082-m.avif",
+          "webp": "/gen/hero/082-m.webp"
+        }
+      },
+      {
+        "index": 83,
+        "desktop": {
+          "avif": "/gen/hero/083-d.avif",
+          "webp": "/gen/hero/083-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/083-m.avif",
+          "webp": "/gen/hero/083-m.webp"
+        }
+      },
+      {
+        "index": 84,
+        "desktop": {
+          "avif": "/gen/hero/084-d.avif",
+          "webp": "/gen/hero/084-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/084-m.avif",
+          "webp": "/gen/hero/084-m.webp"
+        }
+      },
+      {
+        "index": 85,
+        "desktop": {
+          "avif": "/gen/hero/085-d.avif",
+          "webp": "/gen/hero/085-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/085-m.avif",
+          "webp": "/gen/hero/085-m.webp"
+        }
+      },
+      {
+        "index": 86,
+        "desktop": {
+          "avif": "/gen/hero/086-d.avif",
+          "webp": "/gen/hero/086-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/086-m.avif",
+          "webp": "/gen/hero/086-m.webp"
+        }
+      },
+      {
+        "index": 87,
+        "desktop": {
+          "avif": "/gen/hero/087-d.avif",
+          "webp": "/gen/hero/087-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/087-m.avif",
+          "webp": "/gen/hero/087-m.webp"
+        }
+      },
+      {
+        "index": 88,
+        "desktop": {
+          "avif": "/gen/hero/088-d.avif",
+          "webp": "/gen/hero/088-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/088-m.avif",
+          "webp": "/gen/hero/088-m.webp"
+        }
+      },
+      {
+        "index": 89,
+        "desktop": {
+          "avif": "/gen/hero/089-d.avif",
+          "webp": "/gen/hero/089-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/089-m.avif",
+          "webp": "/gen/hero/089-m.webp"
+        }
+      },
+      {
+        "index": 90,
+        "desktop": {
+          "avif": "/gen/hero/090-d.avif",
+          "webp": "/gen/hero/090-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/090-m.avif",
+          "webp": "/gen/hero/090-m.webp"
+        }
+      },
+      {
+        "index": 91,
+        "desktop": {
+          "avif": "/gen/hero/091-d.avif",
+          "webp": "/gen/hero/091-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/091-m.avif",
+          "webp": "/gen/hero/091-m.webp"
+        }
+      },
+      {
+        "index": 92,
+        "desktop": {
+          "avif": "/gen/hero/092-d.avif",
+          "webp": "/gen/hero/092-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/092-m.avif",
+          "webp": "/gen/hero/092-m.webp"
+        }
+      },
+      {
+        "index": 93,
+        "desktop": {
+          "avif": "/gen/hero/093-d.avif",
+          "webp": "/gen/hero/093-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/093-m.avif",
+          "webp": "/gen/hero/093-m.webp"
+        }
+      },
+      {
+        "index": 94,
+        "desktop": {
+          "avif": "/gen/hero/094-d.avif",
+          "webp": "/gen/hero/094-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/094-m.avif",
+          "webp": "/gen/hero/094-m.webp"
+        }
+      },
+      {
+        "index": 95,
+        "desktop": {
+          "avif": "/gen/hero/095-d.avif",
+          "webp": "/gen/hero/095-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/095-m.avif",
+          "webp": "/gen/hero/095-m.webp"
+        }
+      },
+      {
+        "index": 96,
+        "desktop": {
+          "avif": "/gen/hero/096-d.avif",
+          "webp": "/gen/hero/096-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/096-m.avif",
+          "webp": "/gen/hero/096-m.webp"
+        }
+      },
+      {
+        "index": 97,
+        "desktop": {
+          "avif": "/gen/hero/097-d.avif",
+          "webp": "/gen/hero/097-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/097-m.avif",
+          "webp": "/gen/hero/097-m.webp"
+        }
+      },
+      {
+        "index": 98,
+        "desktop": {
+          "avif": "/gen/hero/098-d.avif",
+          "webp": "/gen/hero/098-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/098-m.avif",
+          "webp": "/gen/hero/098-m.webp"
+        }
+      },
+      {
+        "index": 99,
+        "desktop": {
+          "avif": "/gen/hero/099-d.avif",
+          "webp": "/gen/hero/099-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/099-m.avif",
+          "webp": "/gen/hero/099-m.webp"
+        }
+      },
+      {
+        "index": 100,
+        "desktop": {
+          "avif": "/gen/hero/100-d.avif",
+          "webp": "/gen/hero/100-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/100-m.avif",
+          "webp": "/gen/hero/100-m.webp"
+        }
+      },
+      {
+        "index": 101,
+        "desktop": {
+          "avif": "/gen/hero/101-d.avif",
+          "webp": "/gen/hero/101-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/101-m.avif",
+          "webp": "/gen/hero/101-m.webp"
+        }
+      },
+      {
+        "index": 102,
+        "desktop": {
+          "avif": "/gen/hero/102-d.avif",
+          "webp": "/gen/hero/102-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/102-m.avif",
+          "webp": "/gen/hero/102-m.webp"
+        }
+      },
+      {
+        "index": 103,
+        "desktop": {
+          "avif": "/gen/hero/103-d.avif",
+          "webp": "/gen/hero/103-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/103-m.avif",
+          "webp": "/gen/hero/103-m.webp"
+        }
+      },
+      {
+        "index": 104,
+        "desktop": {
+          "avif": "/gen/hero/104-d.avif",
+          "webp": "/gen/hero/104-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/104-m.avif",
+          "webp": "/gen/hero/104-m.webp"
+        }
+      },
+      {
+        "index": 105,
+        "desktop": {
+          "avif": "/gen/hero/105-d.avif",
+          "webp": "/gen/hero/105-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/105-m.avif",
+          "webp": "/gen/hero/105-m.webp"
+        }
+      },
+      {
+        "index": 106,
+        "desktop": {
+          "avif": "/gen/hero/106-d.avif",
+          "webp": "/gen/hero/106-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/106-m.avif",
+          "webp": "/gen/hero/106-m.webp"
+        }
+      },
+      {
+        "index": 107,
+        "desktop": {
+          "avif": "/gen/hero/107-d.avif",
+          "webp": "/gen/hero/107-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/107-m.avif",
+          "webp": "/gen/hero/107-m.webp"
+        }
+      },
+      {
+        "index": 108,
+        "desktop": {
+          "avif": "/gen/hero/108-d.avif",
+          "webp": "/gen/hero/108-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/108-m.avif",
+          "webp": "/gen/hero/108-m.webp"
+        }
+      },
+      {
+        "index": 109,
+        "desktop": {
+          "avif": "/gen/hero/109-d.avif",
+          "webp": "/gen/hero/109-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/109-m.avif",
+          "webp": "/gen/hero/109-m.webp"
+        }
+      },
+      {
+        "index": 110,
+        "desktop": {
+          "avif": "/gen/hero/110-d.avif",
+          "webp": "/gen/hero/110-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/110-m.avif",
+          "webp": "/gen/hero/110-m.webp"
+        }
+      },
+      {
+        "index": 111,
+        "desktop": {
+          "avif": "/gen/hero/111-d.avif",
+          "webp": "/gen/hero/111-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/111-m.avif",
+          "webp": "/gen/hero/111-m.webp"
+        }
+      },
+      {
+        "index": 112,
+        "desktop": {
+          "avif": "/gen/hero/112-d.avif",
+          "webp": "/gen/hero/112-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/112-m.avif",
+          "webp": "/gen/hero/112-m.webp"
+        }
+      },
+      {
+        "index": 113,
+        "desktop": {
+          "avif": "/gen/hero/113-d.avif",
+          "webp": "/gen/hero/113-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/113-m.avif",
+          "webp": "/gen/hero/113-m.webp"
+        }
+      },
+      {
+        "index": 114,
+        "desktop": {
+          "avif": "/gen/hero/114-d.avif",
+          "webp": "/gen/hero/114-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/114-m.avif",
+          "webp": "/gen/hero/114-m.webp"
+        }
+      },
+      {
+        "index": 115,
+        "desktop": {
+          "avif": "/gen/hero/115-d.avif",
+          "webp": "/gen/hero/115-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/115-m.avif",
+          "webp": "/gen/hero/115-m.webp"
+        }
+      },
+      {
+        "index": 116,
+        "desktop": {
+          "avif": "/gen/hero/116-d.avif",
+          "webp": "/gen/hero/116-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/116-m.avif",
+          "webp": "/gen/hero/116-m.webp"
+        }
+      },
+      {
+        "index": 117,
+        "desktop": {
+          "avif": "/gen/hero/117-d.avif",
+          "webp": "/gen/hero/117-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/117-m.avif",
+          "webp": "/gen/hero/117-m.webp"
+        }
+      },
+      {
+        "index": 118,
+        "desktop": {
+          "avif": "/gen/hero/118-d.avif",
+          "webp": "/gen/hero/118-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/118-m.avif",
+          "webp": "/gen/hero/118-m.webp"
+        }
+      },
+      {
+        "index": 119,
+        "desktop": {
+          "avif": "/gen/hero/119-d.avif",
+          "webp": "/gen/hero/119-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/119-m.avif",
+          "webp": "/gen/hero/119-m.webp"
+        }
+      },
+      {
+        "index": 120,
+        "desktop": {
+          "avif": "/gen/hero/120-d.avif",
+          "webp": "/gen/hero/120-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/120-m.avif",
+          "webp": "/gen/hero/120-m.webp"
+        }
+      },
+      {
+        "index": 121,
+        "desktop": {
+          "avif": "/gen/hero/121-d.avif",
+          "webp": "/gen/hero/121-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/121-m.avif",
+          "webp": "/gen/hero/121-m.webp"
+        }
+      },
+      {
+        "index": 122,
+        "desktop": {
+          "avif": "/gen/hero/122-d.avif",
+          "webp": "/gen/hero/122-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/122-m.avif",
+          "webp": "/gen/hero/122-m.webp"
+        }
+      },
+      {
+        "index": 123,
+        "desktop": {
+          "avif": "/gen/hero/123-d.avif",
+          "webp": "/gen/hero/123-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/123-m.avif",
+          "webp": "/gen/hero/123-m.webp"
+        }
+      },
+      {
+        "index": 124,
+        "desktop": {
+          "avif": "/gen/hero/124-d.avif",
+          "webp": "/gen/hero/124-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/124-m.avif",
+          "webp": "/gen/hero/124-m.webp"
+        }
+      },
+      {
+        "index": 125,
+        "desktop": {
+          "avif": "/gen/hero/125-d.avif",
+          "webp": "/gen/hero/125-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/125-m.avif",
+          "webp": "/gen/hero/125-m.webp"
+        }
+      },
+      {
+        "index": 126,
+        "desktop": {
+          "avif": "/gen/hero/126-d.avif",
+          "webp": "/gen/hero/126-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/126-m.avif",
+          "webp": "/gen/hero/126-m.webp"
+        }
+      },
+      {
+        "index": 127,
+        "desktop": {
+          "avif": "/gen/hero/127-d.avif",
+          "webp": "/gen/hero/127-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/127-m.avif",
+          "webp": "/gen/hero/127-m.webp"
+        }
+      },
+      {
+        "index": 128,
+        "desktop": {
+          "avif": "/gen/hero/128-d.avif",
+          "webp": "/gen/hero/128-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/128-m.avif",
+          "webp": "/gen/hero/128-m.webp"
+        }
+      },
+      {
+        "index": 129,
+        "desktop": {
+          "avif": "/gen/hero/129-d.avif",
+          "webp": "/gen/hero/129-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/129-m.avif",
+          "webp": "/gen/hero/129-m.webp"
+        }
+      },
+      {
+        "index": 130,
+        "desktop": {
+          "avif": "/gen/hero/130-d.avif",
+          "webp": "/gen/hero/130-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/130-m.avif",
+          "webp": "/gen/hero/130-m.webp"
+        }
+      },
+      {
+        "index": 131,
+        "desktop": {
+          "avif": "/gen/hero/131-d.avif",
+          "webp": "/gen/hero/131-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/131-m.avif",
+          "webp": "/gen/hero/131-m.webp"
+        }
+      },
+      {
+        "index": 132,
+        "desktop": {
+          "avif": "/gen/hero/132-d.avif",
+          "webp": "/gen/hero/132-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/132-m.avif",
+          "webp": "/gen/hero/132-m.webp"
+        }
+      },
+      {
+        "index": 133,
+        "desktop": {
+          "avif": "/gen/hero/133-d.avif",
+          "webp": "/gen/hero/133-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/133-m.avif",
+          "webp": "/gen/hero/133-m.webp"
+        }
+      },
+      {
+        "index": 134,
+        "desktop": {
+          "avif": "/gen/hero/134-d.avif",
+          "webp": "/gen/hero/134-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/134-m.avif",
+          "webp": "/gen/hero/134-m.webp"
+        }
+      },
+      {
+        "index": 135,
+        "desktop": {
+          "avif": "/gen/hero/135-d.avif",
+          "webp": "/gen/hero/135-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/135-m.avif",
+          "webp": "/gen/hero/135-m.webp"
+        }
+      },
+      {
+        "index": 136,
+        "desktop": {
+          "avif": "/gen/hero/136-d.avif",
+          "webp": "/gen/hero/136-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/136-m.avif",
+          "webp": "/gen/hero/136-m.webp"
+        }
+      },
+      {
+        "index": 137,
+        "desktop": {
+          "avif": "/gen/hero/137-d.avif",
+          "webp": "/gen/hero/137-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/137-m.avif",
+          "webp": "/gen/hero/137-m.webp"
+        }
+      },
+      {
+        "index": 138,
+        "desktop": {
+          "avif": "/gen/hero/138-d.avif",
+          "webp": "/gen/hero/138-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/138-m.avif",
+          "webp": "/gen/hero/138-m.webp"
+        }
+      },
+      {
+        "index": 139,
+        "desktop": {
+          "avif": "/gen/hero/139-d.avif",
+          "webp": "/gen/hero/139-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/139-m.avif",
+          "webp": "/gen/hero/139-m.webp"
+        }
+      },
+      {
+        "index": 140,
+        "desktop": {
+          "avif": "/gen/hero/140-d.avif",
+          "webp": "/gen/hero/140-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/140-m.avif",
+          "webp": "/gen/hero/140-m.webp"
+        }
+      },
+      {
+        "index": 141,
+        "desktop": {
+          "avif": "/gen/hero/141-d.avif",
+          "webp": "/gen/hero/141-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/141-m.avif",
+          "webp": "/gen/hero/141-m.webp"
+        }
+      },
+      {
+        "index": 142,
+        "desktop": {
+          "avif": "/gen/hero/142-d.avif",
+          "webp": "/gen/hero/142-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/142-m.avif",
+          "webp": "/gen/hero/142-m.webp"
+        }
+      },
+      {
+        "index": 143,
+        "desktop": {
+          "avif": "/gen/hero/143-d.avif",
+          "webp": "/gen/hero/143-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/143-m.avif",
+          "webp": "/gen/hero/143-m.webp"
+        }
+      },
+      {
+        "index": 144,
+        "desktop": {
+          "avif": "/gen/hero/144-d.avif",
+          "webp": "/gen/hero/144-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/144-m.avif",
+          "webp": "/gen/hero/144-m.webp"
+        }
+      },
+      {
+        "index": 145,
+        "desktop": {
+          "avif": "/gen/hero/145-d.avif",
+          "webp": "/gen/hero/145-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/145-m.avif",
+          "webp": "/gen/hero/145-m.webp"
+        }
+      },
+      {
+        "index": 146,
+        "desktop": {
+          "avif": "/gen/hero/146-d.avif",
+          "webp": "/gen/hero/146-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/146-m.avif",
+          "webp": "/gen/hero/146-m.webp"
+        }
+      },
+      {
+        "index": 147,
+        "desktop": {
+          "avif": "/gen/hero/147-d.avif",
+          "webp": "/gen/hero/147-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/147-m.avif",
+          "webp": "/gen/hero/147-m.webp"
+        }
+      },
+      {
+        "index": 148,
+        "desktop": {
+          "avif": "/gen/hero/148-d.avif",
+          "webp": "/gen/hero/148-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/148-m.avif",
+          "webp": "/gen/hero/148-m.webp"
+        }
+      },
+      {
+        "index": 149,
+        "desktop": {
+          "avif": "/gen/hero/149-d.avif",
+          "webp": "/gen/hero/149-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/149-m.avif",
+          "webp": "/gen/hero/149-m.webp"
+        }
+      },
+      {
+        "index": 150,
+        "desktop": {
+          "avif": "/gen/hero/150-d.avif",
+          "webp": "/gen/hero/150-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/150-m.avif",
+          "webp": "/gen/hero/150-m.webp"
+        }
+      },
+      {
+        "index": 151,
+        "desktop": {
+          "avif": "/gen/hero/151-d.avif",
+          "webp": "/gen/hero/151-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/151-m.avif",
+          "webp": "/gen/hero/151-m.webp"
+        }
+      },
+      {
+        "index": 152,
+        "desktop": {
+          "avif": "/gen/hero/152-d.avif",
+          "webp": "/gen/hero/152-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/152-m.avif",
+          "webp": "/gen/hero/152-m.webp"
+        }
+      },
+      {
+        "index": 153,
+        "desktop": {
+          "avif": "/gen/hero/153-d.avif",
+          "webp": "/gen/hero/153-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/153-m.avif",
+          "webp": "/gen/hero/153-m.webp"
+        }
+      },
+      {
+        "index": 154,
+        "desktop": {
+          "avif": "/gen/hero/154-d.avif",
+          "webp": "/gen/hero/154-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/154-m.avif",
+          "webp": "/gen/hero/154-m.webp"
+        }
+      },
+      {
+        "index": 155,
+        "desktop": {
+          "avif": "/gen/hero/155-d.avif",
+          "webp": "/gen/hero/155-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/155-m.avif",
+          "webp": "/gen/hero/155-m.webp"
+        }
+      },
+      {
+        "index": 156,
+        "desktop": {
+          "avif": "/gen/hero/156-d.avif",
+          "webp": "/gen/hero/156-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/156-m.avif",
+          "webp": "/gen/hero/156-m.webp"
+        }
+      },
+      {
+        "index": 157,
+        "desktop": {
+          "avif": "/gen/hero/157-d.avif",
+          "webp": "/gen/hero/157-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/157-m.avif",
+          "webp": "/gen/hero/157-m.webp"
+        }
+      },
+      {
+        "index": 158,
+        "desktop": {
+          "avif": "/gen/hero/158-d.avif",
+          "webp": "/gen/hero/158-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/158-m.avif",
+          "webp": "/gen/hero/158-m.webp"
+        }
+      },
+      {
+        "index": 159,
+        "desktop": {
+          "avif": "/gen/hero/159-d.avif",
+          "webp": "/gen/hero/159-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/159-m.avif",
+          "webp": "/gen/hero/159-m.webp"
+        }
+      },
+      {
+        "index": 160,
+        "desktop": {
+          "avif": "/gen/hero/160-d.avif",
+          "webp": "/gen/hero/160-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/160-m.avif",
+          "webp": "/gen/hero/160-m.webp"
+        }
+      },
+      {
+        "index": 161,
+        "desktop": {
+          "avif": "/gen/hero/161-d.avif",
+          "webp": "/gen/hero/161-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/161-m.avif",
+          "webp": "/gen/hero/161-m.webp"
+        }
+      },
+      {
+        "index": 162,
+        "desktop": {
+          "avif": "/gen/hero/162-d.avif",
+          "webp": "/gen/hero/162-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/162-m.avif",
+          "webp": "/gen/hero/162-m.webp"
+        }
+      },
+      {
+        "index": 163,
+        "desktop": {
+          "avif": "/gen/hero/163-d.avif",
+          "webp": "/gen/hero/163-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/163-m.avif",
+          "webp": "/gen/hero/163-m.webp"
+        }
+      },
+      {
+        "index": 164,
+        "desktop": {
+          "avif": "/gen/hero/164-d.avif",
+          "webp": "/gen/hero/164-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/164-m.avif",
+          "webp": "/gen/hero/164-m.webp"
+        }
+      },
+      {
+        "index": 165,
+        "desktop": {
+          "avif": "/gen/hero/165-d.avif",
+          "webp": "/gen/hero/165-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/165-m.avif",
+          "webp": "/gen/hero/165-m.webp"
+        }
+      },
+      {
+        "index": 166,
+        "desktop": {
+          "avif": "/gen/hero/166-d.avif",
+          "webp": "/gen/hero/166-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/166-m.avif",
+          "webp": "/gen/hero/166-m.webp"
+        }
+      },
+      {
+        "index": 167,
+        "desktop": {
+          "avif": "/gen/hero/167-d.avif",
+          "webp": "/gen/hero/167-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/167-m.avif",
+          "webp": "/gen/hero/167-m.webp"
+        }
+      },
+      {
+        "index": 168,
+        "desktop": {
+          "avif": "/gen/hero/168-d.avif",
+          "webp": "/gen/hero/168-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/168-m.avif",
+          "webp": "/gen/hero/168-m.webp"
+        }
+      },
+      {
+        "index": 169,
+        "desktop": {
+          "avif": "/gen/hero/169-d.avif",
+          "webp": "/gen/hero/169-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/169-m.avif",
+          "webp": "/gen/hero/169-m.webp"
+        }
+      },
+      {
+        "index": 170,
+        "desktop": {
+          "avif": "/gen/hero/170-d.avif",
+          "webp": "/gen/hero/170-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/170-m.avif",
+          "webp": "/gen/hero/170-m.webp"
+        }
+      },
+      {
+        "index": 171,
+        "desktop": {
+          "avif": "/gen/hero/171-d.avif",
+          "webp": "/gen/hero/171-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/171-m.avif",
+          "webp": "/gen/hero/171-m.webp"
+        }
+      },
+      {
+        "index": 172,
+        "desktop": {
+          "avif": "/gen/hero/172-d.avif",
+          "webp": "/gen/hero/172-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/172-m.avif",
+          "webp": "/gen/hero/172-m.webp"
+        }
+      },
+      {
+        "index": 173,
+        "desktop": {
+          "avif": "/gen/hero/173-d.avif",
+          "webp": "/gen/hero/173-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/173-m.avif",
+          "webp": "/gen/hero/173-m.webp"
+        }
+      },
+      {
+        "index": 174,
+        "desktop": {
+          "avif": "/gen/hero/174-d.avif",
+          "webp": "/gen/hero/174-d.webp"
+        },
+        "mobile": {
+          "avif": "/gen/hero/174-m.avif",
+          "webp": "/gen/hero/174-m.webp"
+        }
+      }
+    ]
+  },
+  "generatedAt": "2026-07-15T23:37:01.928Z"
+}

@@ -3,11 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>Porsche 911 GT3 RS — Cinematic Showcase | velixo.io</title>
+    <meta name="description" content="An interactive landing page for the Porsche 911 GT3 RS, featuring scroll-driven frame animations, performance specs, and a color configurator." />
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/jetbrains-mono-400.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <style>
+      #hero-sticky, #hero-text, #hero-canvas, #hero-scroll-indicator {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        transition: opacity 0.3s ease !important;
+      }
+      body.hero-ready #hero-sticky,
+      body.hero-ready #hero-text,
+      body.hero-ready #hero-canvas,
+      body.hero-ready #hero-scroll-indicator {
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+    </style>
   </head>
   <body>
+    <section id="overview" style="height: 700vh; position: relative; background-color: #000;">
+      <div id="hero-sticky" style="position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background-color: #000; z-index: 1; contain: layout; visibility: hidden; opacity: 0;">
+        <canvas id="hero-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; visibility: hidden; opacity: 0;"></canvas>
+        <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);"></div>
+        <div id="hero-text" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 6rem 1.5rem 5rem; max-width: 56rem; text-align: left; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; z-index: 2; visibility: hidden; opacity: 0;">
+          <div style="max-width: 36rem;">
+            <div style="margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; border: 1px solid #262626; background: rgba(0,0,0,0.6); padding: 0.25rem 0.75rem; font-size: 0.625rem; font-weight: 500; letter-spacing: 0.1em; color: #d4d4d4; backdrop-filter: blur(4px);">
+              <span style="display: inline-block; height: 0.375rem; width: 0.375rem; border-radius: 50%; background: #0066FF; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></span>
+              NEW 2025 MODEL
+            </div>
+            <h1 style="font-size: 1.875rem; font-weight: 700; letter-spacing: -0.025em; color: #fff; line-height: 1.2; margin: 0;">911 GT3 RS</h1>
+            <p style="margin-top: 0.75rem; font-size: 0.875rem; color: #a3a3a3; line-height: 1.625;">Born from the track. Built for the road. The most extreme road-legal 911 in history.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #737373;">Developed by velixo.io — contact me to chat about your next web project.</p>
+            <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;">
+              <a href="mailto:contact@velixo.io" style="display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; background: #0066FF; padding: 0.625rem 1.25rem; font-size: 0.875rem; font-weight: 600; color: #fff; text-decoration: none;">Send Message</a>
+              <a href="#performance" style="display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; border: 1px solid #262626; background: rgba(0,0,0,0.65); padding: 0.625rem 1.25rem; font-size: 0.875rem; font-weight: 600; color: #fff; text-decoration: none; backdrop-filter: blur(4px);">Explore performance</a>
+            </div>
+          </div>
+        </div>
+        <div id="hero-scroll-indicator" style="position: absolute; bottom: 1.5rem; right: 1.5rem; display: flex; align-items: center; gap: 0.5rem; color: #737373;">
+          <span style="font-size: 0.625rem; letter-spacing: 0.1em; font-family: ui-monospace, monospace;">SCROLL TO EXPLORE</span>
+          <svg style="height: 1rem; width: 1rem; animation: bounce 2s infinite;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+      </div>
+    </section>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

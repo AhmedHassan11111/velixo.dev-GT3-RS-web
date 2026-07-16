@@ -1,0 +1,14 @@
+{
+  "label": "baseline",
+  "capturedAt": "2026-07-16T02:05:00+03:00",
+  "device": "mobile-emulated (Lighthouse, throttled 4G, cpuSlowdown 4x)",
+  "tool": "vite-build-size + public asset scan (pre-optimization)",
+  "notes": "Captured from the unmodified production build before any optimization. First-visit transfer = JS bundle (494.57 KB) + CSS (32.91 KB) + all public images (~13.9 MB, served as unoptimized JPEG incl. 174 hero frames) + index.html. No modern formats, no srcset, no caching headers, fonts not loaded. This is the before state for SC-001..SC-007.",
+  "lcpMs": null,
+  "cls": null,
+  "inpMs": null,
+  "jsBytes": 494570,
+  "cssBytes": 32910,
+  "totalFirstVisitBytes": 14429000,
+  "lighthousePerfScore": null
+}

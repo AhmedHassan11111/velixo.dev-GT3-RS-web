@@ -1,0 +1,14 @@
+{
+  "label": "final",
+  "capturedAt": "2026-07-16T12:48:36.495Z",
+  "device": "mobile-emulated (Lighthouse, throttled 4G, cpuSlowdown 4x, 3 runs)",
+  "tool": "lighthouse (@lhci/cli) via Chrome",
+  "notes": "Measured on the optimized production build AFTER moving static Hero markup outside #root in index.html (no React replacement), base64 poster inline, single loading screen dismissed immediately on mount, motion code-split. 3 Lighthouse runs averaged. LCP improved to ~2443ms, now under 2.5s target on average. TBT improved to ~119ms. CLS=0. The LCP element is now the static HTML paragraph (div#hero-sticky > div > div > p), confirming the outside-#root strategy preserved it through React mount. Element render delay dropped from ~1468ms to ~249ms.",
+  "lcpMs": 2443,
+  "cls": 0,
+  "inpMs": 2983,
+  "jsBytes": 422527,
+  "cssBytes": 35236,
+  "totalFirstVisitBytes": 477500,
+  "lighthousePerfScore": 96
+}

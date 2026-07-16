@@ -18,13 +18,10 @@ import {
   Instagram,
   Linkedin,
 } from "lucide-react";
-import React, { useEffect, useRef, useState, ReactNode, MouseEventHandler } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import React, { useEffect, useRef, useState, useCallback, ReactNode, MouseEventHandler } from "react";
+import { ResponsiveImage } from "./components/ResponsiveImage";
+import { getContentImage, IMAGES } from "./lib/images";
+import { heroPoster } from "./lib/hero-poster";
 
 function Link({ href, children, className, onClick, ...props }: { href: string; children: ReactNode; className?: string; onClick?: MouseEventHandler<HTMLAnchorElement>; [key: string]: any }) {
   return (
@@ -87,28 +84,28 @@ const techFeatures = [
     title: "PASM Suspension",
     description:
       "Active suspension management with adjustable dampers and a fully ball-jointed suspension for track-day precision.",
-    image: "/tech-pasm.jpg",
+    image: "tech-pasm",
   },
   {
     icon: <Shield className="h-6 w-6" />,
     title: "PSM Sport",
     description:
       "Porsche Stability Management with track mode and PSM Sport for controlled drifts on closed circuits.",
-    image: "/thirdcard.jpg",
+    image: "thirdcard",
   },
   {
     icon: <Camera className="h-6 w-6" />,
     title: "Lap Timer & Telemetry",
     description:
       "Built-in lap timer with GPS tracking and real-time telemetry displayed on the 10.9-inch PCM screen.",
-    image: "/tech-telemetry.jpg",
+    image: "tech-telemetry",
   },
   {
     icon: <Zap className="h-6 w-6" />,
     title: "DRS System",
     description:
       "Drag Reduction System borrowed from Formula 1 — adjust the rear wing angle at the push of a button.",
-    image: "/tech-drs.jpg",
+    image: "tech-drs",
   },
 ];
 
@@ -178,36 +175,6 @@ const faqs = [
       "While street-legal and equipped with climate control and a sound system, the GT3 RS is tuned for the track. The ride is firm and the bucket seats are fixed — it's best enjoyed as a weekend or track-day car.",
   },
 ];
-
-/* Helper for directories and automatic error-recovery of missing files */
-let globalImageDir = "/ezgif-85116182a5dc7c12-jpg";
-
-export function getImgDir() {
-  if (typeof window !== "undefined") {
-    return (window as any).__porscheImgDir || globalImageDir;
-  }
-  return globalImageDir;
-}
-
-export function setImgDir(dir: string) {
-  globalImageDir = dir;
-  if (typeof window !== "undefined") {
-    (window as any).__porscheImgDir = dir;
-  }
-}
-
-export function handleImageError(e: React.SyntheticEvent<HTMLImageElement>) {
-  const currentSrc = e.currentTarget.src;
-  const currentDir = getImgDir();
-  
-  if (currentDir === "/ezgif-85116182a5dc7c12-jpg") {
-    setImgDir("/herosection");
-    e.currentTarget.src = currentSrc.replace("/ezgif-85116182a5dc7c12-jpg/", "/herosection/");
-  } else {
-    setImgDir("/ezgif-85116182a5dc7c12-jpg");
-    e.currentTarget.src = currentSrc.replace("/herosection/", "/ezgif-85116182a5dc7c12-jpg/");
-  }
-}
 
 /* ──────────────────────────────────────────────
    Hero: scroll-scrubbed frame sequence (174 frames)
@@ -492,69 +459,114 @@ function drawProceduralFallback(ctx: CanvasRenderingContext2D, index: number, w:
   ctx.restore();
 }
 
-function HeroScrollFrames() {
-  const containerRef = useRef<HTMLDivElement>(null);  // outer tall section (700vh)
-  const stickyRef   = useRef<HTMLDivElement>(null);   // inner sticky card
-  const canvasRef   = useRef<HTMLCanvasElement>(null);
-  const imagesRef   = useRef<HTMLImageElement[]>([]);
-  const stackOverlayRef = useRef<HTMLDivElement>(null);
+function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
+  const containerRef = useRef<HTMLElement>(document.getElementById("overview")!);
+  const stickyRef = useRef<HTMLElement>(document.getElementById("hero-sticky")!);
+  const canvasRef = useRef<HTMLCanvasElement>(document.getElementById("hero-canvas")!);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
-  const [loaded, setLoaded] = useState(0);
+  const layoutRef = useRef({ sectionTop: 0, scrollDist: 0, mobile: false });
   const [currentFrame, setCurrentFrame] = useState(1);
 
-  // Preload all frames
+  const heroManifest = IMAGES.hero;
+
+  // Pick desktop vs mobile frame src based on the cached viewport class.
+  const frameSrc = (index: number, fmt: "avif" | "webp"): string => {
+    const f = heroManifest.frames[index];
+    if (!f) return "";
+    const set = layoutRef.current.mobile ? f.mobile : f.desktop;
+    return set[fmt];
+  };
+
+  const measureLayout = () => {
+    const section = containerRef.current;
+    if (!section) return;
+    layoutRef.current.sectionTop = section.offsetTop;
+    layoutRef.current.scrollDist = window.innerHeight * 6; // 600vh of travel
+    layoutRef.current.mobile = window.innerWidth < 768;
+  };
+
+  // Lazy frame loader: only the poster + a small initial window get .src up front,
+  // so the hero does not fire 174 parallel requests (which kills LCP on slow networks).
+  // Frames further ahead are loaded on demand as the user scrolls near them.
+  const INITIAL_WINDOW = 12;
+  const LOAD_AHEAD = 8;
+
+  const loadFrame = (images: HTMLImageElement[], i: number, onReady?: () => void) => {
+    const img = images[i];
+    if (!img || (img as any).started) return;
+    (img as any).started = true;
+    const avif = frameSrc(i, "avif");
+    const webp = frameSrc(i, "webp");
+    img.onload = () => {
+      (img as any).ready = true;
+      onReady?.();
+    };
+    img.onerror = () => {
+      if (!(img as any).triedWebp && webp) {
+        (img as any).triedWebp = true;
+        img.src = webp;
+      } else {
+        (img as any).failed = true;
+        onReady?.();
+      }
+    };
+    img.src = avif;
+  };
+
   useEffect(() => {
+    measureLayout();
     const images: HTMLImageElement[] = [];
-    let count = 0;
-
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
-      const img = new Image();
-      const padded = String(i).padStart(3, "0");
-      
-      const tryPath = (isFallback: boolean) => {
-        const basePath = isFallback 
-          ? (getImgDir() === "/ezgif-85116182a5dc7c12-jpg" ? "/herosection" : "/ezgif-85116182a5dc7c12-jpg")
-          : getImgDir();
-        
-        img.src = `${basePath}/ezgif-frame-${padded}.jpg`;
-      };
-
-      img.onload = () => {
-        count++;
-        setLoaded(count);
-        if (count === TOTAL_FRAMES) {
-          drawFrame(0);
-        }
-      };
-
-      img.onerror = () => {
-        if (!(img as any).triedFallback) {
-          (img as any).triedFallback = true;
-          tryPath(true);
-        } else {
-          count++;
-          // Tag image as failed, so canvas knows to draw the procedural fallback
-          (img as any).failed = true;
-          setLoaded(count);
-          if (count === TOTAL_FRAMES) {
-            drawFrame(0);
-          }
-        }
-      };
-
-      tryPath(false);
-      images[i - 1] = img;
-    }
+    for (let i = 0; i < TOTAL_FRAMES; i++) images[i] = new Image();
     imagesRef.current = images;
 
+    let readyFired = false;
+    const fireReady = () => {
+      if (!readyFired) {
+        readyFired = true;
+        onReady?.();
+      }
+    };
+
+    // Pre-populate frame 0 with an inlined base64 poster so the LCP candidate
+    // paints instantly from memory — zero network round-trip.
+    images[0].src = heroPoster;
+    const drawPoster = () => drawFrame(0);
+    if (images[0].complete) {
+      drawPoster();
+    } else {
+      images[0].onload = drawPoster;
+    }
+    // Safety: draw poster even if onload doesn't fire (e.g., cached base64).
+    setTimeout(drawPoster, 50);
+
+    // Warm a small initial window so early scrolling is smooth.
+    let warmed = 0;
+    const total = Math.min(INITIAL_WINDOW, TOTAL_FRAMES - 1);
+    const onWarm = () => {
+      warmed++;
+      if (warmed >= total) fireReady();
+    };
+    for (let i = 1; i <= INITIAL_WINDOW && i < TOTAL_FRAMES; i++) loadFrame(images, i, onWarm);
+    const safety = setTimeout(() => fireReady(), 2500);
     return () => {
+      clearTimeout(safety);
       images.forEach((img) => {
         img.onload = null;
         img.onerror = null;
       });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [onReady]);
+
+  // Ensure the frame we're about to draw (and a look-ahead window) is loaded.
+  const ensureFramesLoaded = (center: number) => {
+    const images = imagesRef.current;
+    if (!images.length) return;
+    for (let i = Math.max(0, center - 1); i <= Math.min(TOTAL_FRAMES - 1, center + LOAD_AHEAD); i++) {
+      loadFrame(images, i);
+    }
+  };
 
   const drawFrame = (index: number) => {
     const canvas = canvasRef.current;
@@ -612,69 +624,47 @@ function HeroScrollFrames() {
   };
 
   // ── Scroll-driven frame animation (CSS sticky → no GSAP pin) ──
+  // rAF-coalesced: scroll only sets a dirty flag; one update per animation frame (FR-006).
   useEffect(() => {
-    if (loaded < TOTAL_FRAMES) return;
+    // Respect reduced-motion: show a static poster, no scrub loop (accessibility).
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      drawFrame(0);
+      return;
+    }
 
-    drawFrame(0);
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const { sectionTop, scrollDist } = layoutRef.current;
+      const scrollY = window.scrollY;
+      const progress = Math.max(0, Math.min(1, (scrollY - sectionTop) / scrollDist));
 
-    const handleScroll = () => {
-      const section = containerRef.current;
-      if (!section) return;
-      const scrollY     = window.scrollY;
-      const sectionTop  = section.offsetTop;
-      const scrollDist  = window.innerHeight * 6; // 600vh of travel
-      const progress    = Math.max(0, Math.min(1, (scrollY - sectionTop) / scrollDist));
-      const frameIndex  = Math.round(progress * (TOTAL_FRAMES - 1));
+      const frameIndex = Math.round(progress * (TOTAL_FRAMES - 1));
+      ensureFramesLoaded(frameIndex);
       if (frameIndex !== currentFrameRef.current) {
         currentFrameRef.current = frameIndex;
         setCurrentFrame(frameIndex + 1);
-        drawFrame(frameIndex);
+      }
+      drawFrame(frameIndex);
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaded]);
-
-  // ── Stacking effect: hero card scales back as content wrapper slides over it ──
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const sticky  = stickyRef.current;
-      const overlay = stackOverlayRef.current;
-      if (!sticky) return;
-
-      // Triggered when #content-wrapper scrolls from viewport-bottom to viewport-top
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: "#content-wrapper",
-          start: "top bottom",   // wrapper top hits viewport bottom
-          end:   "top top",      // wrapper top reaches viewport top
-          scrub: 1.5,
-        },
-      });
-
-      // Hero card shrinks and rounds like a card going to the back of the stack
-      tl.to(sticky, {
-        scale: 0.88,
-        borderRadius: "20px",
-        transformOrigin: "center center",
-        ease: "none",
-      }, 0);
-
-      // Dark overlay fades in to give depth
-      if (overlay) {
-        tl.to(overlay, { opacity: 0.5, ease: "none" }, 0);
-      }
-    });
-
-    return () => ctx.revert();
   }, []);
 
-  // Redraw on resize
+  // Redraw on resize (re-measure layout, re-pick frame resolution)
   useEffect(() => {
     const handleResize = () => {
+      measureLayout();
       const frameIndex = Math.min(currentFrame - 1, TOTAL_FRAMES - 1);
       drawFrame(frameIndex);
     };
@@ -683,108 +673,7 @@ function HeroScrollFrames() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentFrame]);
 
-  return (
-    /*
-     * Outer section: 700vh tall — provides the scroll distance for the frame
-     * animation (600vh) while keeping the inner card sticky at the top.
-     * The next section (#content-wrapper) naturally slides UP over this,
-     * creating the true stacking-card effect.
-     */
-    <section
-      id="overview"
-      ref={containerRef}
-      style={{ height: "700vh" }}
-      className="relative"
-    >
-      {/* Inner sticky card — stays fixed at top while outer section scrolls */}
-      <div
-        ref={stickyRef}
-        className="hero-canvas-section sticky top-0 h-screen w-full overflow-hidden bg-black"
-        style={{ zIndex: 1 }}
-      >
-        {/* Canvas */}
-        <canvas ref={canvasRef} className="hero-canvas" />
-
-        {/* Loading indicator */}
-        {loaded < TOTAL_FRAMES && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black">
-            <div className="text-center">
-              <div className="mb-4 text-sm font-medium tracking-widest text-neutral-500">
-                LOADING
-              </div>
-              <div className="mx-auto h-1 w-48 overflow-hidden rounded-full bg-neutral-800">
-                <div
-                  className="h-full bg-electric-blue transition-all duration-300"
-                  style={{ width: `${(loaded / TOTAL_FRAMES) * 100}%` }}
-                />
-              </div>
-              <div className="mt-3 text-xs text-neutral-600">
-                {Math.round((loaded / TOTAL_FRAMES) * 100)}%
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Dark overlay — fades in during stacking transition (GSAP-driven) */}
-        <div
-          ref={stackOverlayRef}
-          className="absolute inset-0 bg-black pointer-events-none"
-          style={{ opacity: 0 }}
-        />
-
-        {/* Gradient vignette at the bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-        {/* Hero text content */}
-        <div className="hero-overlay absolute inset-x-0 bottom-0 top-0 flex flex-col justify-end items-start px-6 pb-20 pt-24 md:px-12 md:pb-28 max-w-4xl text-left">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="max-w-xl"
-          >
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-black/60 px-3 py-1 text-[10px] font-medium tracking-widest text-neutral-300 backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-electric-blue animate-pulse" />
-              NEW 2025 MODEL
-            </div>
-            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-5xl">
-              911 GT3 RS
-            </h1>
-            <p className="mt-3 text-sm text-neutral-400 sm:text-base leading-relaxed">
-              Born from the track. Built for the road. The most extreme
-              road-legal 911 in history.
-            </p>
-            <p className="mt-2 text-xs text-neutral-500 sm:text-sm">
-              Developed by velixo.io — contact me to chat about your next web project.
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <MagneticButton
-                href="mailto:contact@velixo.io"
-                className="group inline-flex items-center gap-2 rounded-full bg-electric-blue px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-electric-blue-bright"
-              >
-                Send Message
-                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-              </MagneticButton>
-              <MagneticButton
-                href="#performance"
-                className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-black/65 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-neutral-950"
-              >
-                Explore performance
-              </MagneticButton>
-            </div>
-          </motion.div>
-
-          {/* Scroll indicator */}
-          <div className="absolute bottom-6 right-6 md:right-12">
-            <div className="scroll-indicator flex items-center gap-2 text-neutral-500">
-              <span className="text-[10px] tracking-widest font-mono">SCROLL TO EXPLORE</span>
-              <ChevronDown className="h-4 w-4 animate-bounce" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+  return null;
 }
 
 function ShowcaseIntro() {
@@ -796,9 +685,10 @@ function ShowcaseIntro() {
         </p>
       </div>
       <div className="relative z-10 mx-auto mt-16 w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-        <img
-          src="/section.jpg"
+        <ResponsiveImage
+          name="section"
           alt="Showcase"
+          eager
           className="w-full rounded-xl object-cover shadow-2xl"
         />
       </div>
@@ -927,7 +817,7 @@ function Performance() {
   return (
     <section id="performance" ref={ref} className="relative overflow-hidden py-24 sm:py-32">
       <motion.div style={{ y: bgY }} className="absolute inset-0 -top-[15%] h-[130%]">
-        <img src="/section3.jpg" alt="" className="h-full w-full object-cover" />
+        <ResponsiveImage name="section3" alt="" className="h-full w-full object-cover" />
       </motion.div>
       <div className="absolute inset-0 bg-black/70" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -1023,8 +913,8 @@ function Design() {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             className="relative overflow-hidden rounded-3xl"
           >
-            <img
-              src="/section4.jpg"
+            <ResponsiveImage
+              name="section4"
               alt="Portfolio showcase"
               className="h-full w-full object-cover"
             />
@@ -1134,7 +1024,7 @@ function Technology() {
               <div
                 className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110"
                 style={{
-                  backgroundImage: `url(${item.image})`,
+                  backgroundImage: `url(${getContentImage(item.image)?.variants.at(-1)?.webp ?? `/${item.image}.jpg`})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -1188,7 +1078,7 @@ function ServicesShowcase() {
             className="absolute inset-0 z-10"
             style={{ scale: img1Scale, transformOrigin: "top left" }}
           >
-            <img src="/fhotoone.jpg" alt="Service showcase" className="h-full w-full object-cover" />
+            <ResponsiveImage name="fhotoone" alt="Service showcase" className="h-full w-full object-cover" />
           </motion.div>
 
           <motion.div
@@ -1198,13 +1088,13 @@ function ServicesShowcase() {
             <div className="grid h-full w-full grid-cols-2 grid-rows-2 gap-[2px]">
               <div className="overflow-hidden" />
               <div className="overflow-hidden">
-                <img src="/fhoto2.jpg" alt="Service showcase" className="h-full w-full object-cover" />
+                <ResponsiveImage name="fhoto2" alt="Service showcase" className="h-full w-full object-cover" />
               </div>
               <div className="overflow-hidden">
-                <img src="/fhoto3.jpg" alt="Service showcase" className="h-full w-full object-cover" />
+                <ResponsiveImage name="fhoto3" alt="Service showcase" className="h-full w-full object-cover" />
               </div>
               <div className="overflow-hidden">
-                <img src="/fhoto4.jpg" alt="Service showcase" className="h-full w-full object-cover" />
+                <ResponsiveImage name="fhoto4" alt="Service showcase" className="h-full w-full object-cover" />
               </div>
             </div>
           </motion.div>
@@ -1247,8 +1137,12 @@ function Gallery() {
           style={{ padding: "0 20px" }}
         >
           <motion.img
-            src="/dark.jpg"
+            src={getContentImage("dark")?.jpg ?? "/dark.jpg"}
+            srcSet={getContentImage("dark")?.variants.map((v) => `${v.jpg} ${v.width}w`).join(", ")}
+            sizes="(max-width:768px) 100vw, 80vw"
             alt="Showcase"
+            loading="lazy"
+            decoding="async"
             className="w-full rounded-2xl object-cover"
             style={{ y: imgY, scale: imgScale, height: "calc(100vh - 10px)", minHeight: "70vh", objectPosition: "center 60%" }}
           />
@@ -1266,7 +1160,7 @@ function Reviews() {
   return (
     <section ref={ref} className="relative overflow-hidden bg-black py-24 sm:py-32">
       <motion.div style={{ y: bgY }} className="absolute inset-0 -top-[20%] h-[140%]">
-        <img src="/white.jpg" alt="" className="h-full w-full object-cover" />
+        <ResponsiveImage name="white" alt="" className="h-full w-full object-cover" />
       </motion.div>
       <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -1503,16 +1397,11 @@ function ScrollProgress() {
 }
 
 function LoadingScreen({ onComplete }: { onComplete: () => void }) {
-  useEffect(() => {
-    const timer = setTimeout(onComplete, 2600);
-    return () => clearTimeout(timer);
-  }, [onComplete]);
-
   return (
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
     >
       <motion.div
@@ -1522,7 +1411,7 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
           x: "-44vw",
           y: "-42vh",
           opacity: 0,
-          transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+          transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
         }}
         className="text-5xl font-bold tracking-tight text-white sm:text-7xl"
       >
@@ -1578,16 +1467,37 @@ function MagneticButton({ href, children, className, onClick }: { href: string; 
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
+  const readyRef = useRef(false);
+  const minTimeRef = useRef(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      minTimeRef.current = true;
+      if (readyRef.current) {
+        setLoading(false);
+        document.body.classList.add('hero-ready');
+      }
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleHeroReady = useCallback(() => {
+    readyRef.current = true;
+    if (minTimeRef.current) {
+      setLoading(false);
+      document.body.classList.add('hero-ready');
+    }
+  }, []);
 
   return (
     <>
       <AnimatePresence>
-        {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+        {loading && <LoadingScreen onComplete={handleHeroReady} />}
       </AnimatePresence>
       <ScrollProgress />
       <Header />
       <main className="flex-1">
-        <HeroScrollFrames />
+        <HeroScrollFrames onReady={handleHeroReady} />
         <div id="content-wrapper" className="relative z-10 rounded-t-[2rem] bg-white" style={{ marginTop: "-2rem" }}>
           <ShowcaseIntro />
           <Marquee />
