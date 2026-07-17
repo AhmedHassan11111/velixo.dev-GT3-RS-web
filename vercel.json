@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/submit-email/**/*.ts": {
-      "runtime": "@vercel/node"
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
