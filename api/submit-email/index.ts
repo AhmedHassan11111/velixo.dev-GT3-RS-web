@@ -1,0 +1,152 @@
+import { Resend } from 'resend';
+import { isValidEmail, normalizeEmail } from './lib/validate';
+import { sanitizeInput, sanitizeEmail } from './lib/sanitize';
+import { rateLimiter } from './lib/rate-limit';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+interface SubmitEmailRequest {
+  email: string;
+  honeypot?: string;
+}
+
+function getClientIp(request: Request): string {
+  const forwarded = request.headers.get('x-forwarded-for');
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+  return request.headers.get('cf-connecting-ip') || 'unknown';
+}
+
+function checkCors(request: Request): boolean {
+  const origin = request.headers.get('origin');
+  if (!origin) return true;
+  const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()) || [];
+  if (allowedOrigins.length === 0) return true;
+  return allowedOrigins.includes(origin);
+}
+
+function corsHeaders(origin: string | null): Record<string, string> {
+  const headers: Record<string, string> = {
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+  if (origin) {
+    headers['Access-Control-Allow-Origin'] = origin;
+  }
+  return headers;
+}
+
+export async function handleSubmitEmail(request: Request): Promise<Response> {
+  const origin = request.headers.get('origin');
+
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders(origin),
+    });
+  }
+
+  if (!checkCors(request)) {
+    return new Response(
+      JSON.stringify({ status: 'error', message: 'Origin not allowed' }),
+      {
+        status: 403,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      }
+    );
+  }
+
+  if (request.method !== 'POST') {
+    return new Response(
+      JSON.stringify({ status: 'error', message: 'Method not allowed' }),
+      {
+        status: 405,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      }
+    );
+  }
+
+  let body: SubmitEmailRequest;
+  try {
+    body = (await request.json()) as SubmitEmailRequest;
+  } catch {
+    return new Response(
+      JSON.stringify({ status: 'validation_failed', message: 'Invalid request body' }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      }
+    );
+  }
+
+  const ip = getClientIp(request);
+  const rateLimit = await rateLimiter.check(ip);
+  if (!rateLimit.allowed) {
+    return new Response(
+      JSON.stringify({
+        status: 'rate_limited',
+        message: 'Too many submissions. Please try again later.',
+        retryAfter: Math.ceil((rateLimit.resetAt.getTime() - Date.now()) / 1000),
+      }),
+      {
+        status: 429,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      }
+    );
+  }
+
+  if (body.honeypot && body.honeypot.trim() !== '') {
+    return new Response(
+      JSON.stringify({ status: 'bot_rejected', message: 'Invalid submission.' }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      }
+    );
+  }
+
+  if (!body.email || !isValidEmail(body.email)) {
+    return new Response(
+      JSON.stringify({ status: 'validation_failed', message: 'Please enter a valid email address.' }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      }
+    );
+  }
+
+  const sanitizedEmail = sanitizeEmail(normalizeEmail(body.email));
+
+  try {
+    await resend.emails.send({
+      from: 'Porsche GT3 RS Showcase <noreply@velixo.io>',
+      to: ['contact@velixo.io'],
+      subject: 'New Email Submission',
+      text: `New submission: ${sanitizedEmail}`,
+    });
+  } catch (error) {
+    console.error('Failed to send email:', error);
+    return new Response(
+      JSON.stringify({ status: 'error', message: 'Failed to process submission.' }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      }
+    );
+  }
+
+  return new Response(
+    JSON.stringify({ status: 'accepted', message: 'Thank you for subscribing.' }),
+    {
+      status: 200,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+    }
+  );
+}
+
+export default {
+  fetch: async (request: Request): Promise<Response> => {
+    return handleSubmitEmail(request);
+  },
+};

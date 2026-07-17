@@ -1,32 +1,6 @@
-# Static asset cache + security headers (Netlify-style; adapt for other hosts).
-# See specs/001-performance-optimization/contracts/serving-headers.md (FR-009, Principle 2).
-
-# Hashed build assets + generated images + self-hosted fonts: cache forever.
-/assets/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/fonts/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/gen/*
-  Cache-Control: public, max-age=31536000, immutable
-
-# Stable-named public images: moderate TTL + revalidation.
-/*.jpg
-/*.jpeg
-/*.png
-/*.svg
-/*.webp
-/*.avif
-  Cache-Control: public, max-age=86400
-
-# Document: always revalidate so deploys show immediately.
-/index.html
-  Cache-Control: no-cache
-
-# Security headers (site-wide).
 /*
   Content-Security-Policy: default-src 'self'; img-src 'self' data: blob:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
