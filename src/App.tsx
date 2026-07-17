@@ -988,7 +988,6 @@ function CTA() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const glowOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.5, 0]);
-  const [showSocials, setShowSocials] = useState(false);
   const [formStatus, setFormStatus] = useState<{type: 'success' | 'error', message: string} | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -1047,14 +1046,13 @@ function CTA() {
           Your website is the mirror that reflects your product's identity. Don't hesitate to make it modern and premium.
         </motion.p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <button
-            type="button"
-            onClick={() => setShowSocials((prev) => !prev)}
+          <Link
+            href="#contact"
             className="inline-flex items-center gap-2 rounded-full bg-electric-blue px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-electric-blue-bright"
           >
             Build & Order
             <ArrowRight className="h-4 w-4" />
-          </button>
+          </Link>
           <form onSubmit={handleSubmit} className="inline-flex flex-col gap-2 sm:flex-row">
             <input
               type="email"
@@ -1086,37 +1084,6 @@ function CTA() {
             </p>
           )}
         </div>
-        {showSocials && (
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-700 text-neutral-400 transition-all duration-300 hover:border-electric-blue hover:text-electric-blue hover:scale-110"
-            >
-              <Instagram className="h-5 w-5" />
-            </a>
-            <a
-              href="https://x.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="X (Twitter)"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-700 text-neutral-400 transition-all duration-300 hover:border-electric-blue hover:text-electric-blue hover:scale-110"
-            >
-              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.91l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-700 text-neutral-400 transition-all duration-300 hover:border-electric-blue hover:text-electric-blue hover:scale-110"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-          </div>
-        )}
       </div>
     </section>
   );
