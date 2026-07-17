@@ -40,6 +40,48 @@ function cacheAndSecurityMiddleware() {
   };
 }
 
+// Dev-only mock for the email submission endpoint so the UI can be tested locally.
+function emailSubmitDevMiddleware() {
+  return (req: any, res: any, next: () => void) => {
+    if (req.method === 'POST' && req.url === '/api/submit-email') {
+      let body = '';
+      req.setEncoding('utf8');
+      req.on('data', (chunk: string) => (body += chunk));
+      req.on('end', () => {
+        try {
+          const data = JSON.parse(body || '{}');
+          const email = String(data.email || '').trim();
+          const honeypot = String(data.honeypot || '').trim();
+
+          if (honeypot) {
+            res.setHeader('Content-Type', 'application/json');
+            res.statusCode = 200;
+            res.end(JSON.stringify({ status: 'bot_rejected', message: 'Invalid submission.' }));
+            return;
+          }
+
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            res.setHeader('Content-Type', 'application/json');
+            res.statusCode = 400;
+            res.end(JSON.stringify({ status: 'validation_failed', message: 'Please enter a valid email address.' }));
+            return;
+          }
+
+          res.setHeader('Content-Type', 'application/json');
+          res.statusCode = 200;
+          res.end(JSON.stringify({ status: 'accepted', message: 'Thank you for subscribing.' }));
+        } catch {
+          res.setHeader('Content-Type', 'application/json');
+          res.statusCode = 400;
+          res.end(JSON.stringify({ status: 'validation_failed', message: 'Invalid request body.' }));
+        }
+      });
+      return;
+    }
+    next();
+  };
+}
+
 export default defineConfig(() => {
   return {
     plugins: [
@@ -49,6 +91,7 @@ export default defineConfig(() => {
         name: 'perf-headers',
         configureServer(server) {
           server.middlewares.use(cacheAndSecurityMiddleware());
+          server.middlewares.use(emailSubmitDevMiddleware());
         },
         configurePreviewServer(server) {
           server.middlewares.use(cacheAndSecurityMiddleware());
