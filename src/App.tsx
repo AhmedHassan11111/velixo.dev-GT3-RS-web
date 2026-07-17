@@ -457,7 +457,7 @@ function Header() {
 
         <div className="hidden items-center gap-4 lg:flex">
           <Link
-            href="#configure"
+            href="#contact"
             className="rounded-full bg-electric-blue px-5 py-2 text-sm font-semibold text-white transition-transform hover:scale-105 hover:bg-electric-blue-bright"
           >
             Build & Order
@@ -491,7 +491,7 @@ function Header() {
               </Link>
             ))}
             <Link
-              href="#configure"
+              href="#contact"
               onClick={() => setMobileOpen(false)}
               className="mt-2 rounded-full bg-electric-blue px-4 py-2 text-center text-sm font-semibold text-white"
             >
@@ -1162,7 +1162,7 @@ function Footer() {
   };
 
   return (
-    <footer className="border-t border-neutral-800 bg-black py-12">
+    <footer id="contact" className="border-t border-neutral-800 bg-black py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-2">
           <div>
