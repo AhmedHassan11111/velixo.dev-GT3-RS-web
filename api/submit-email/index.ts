@@ -3,7 +3,13 @@ import { isValidEmail, normalizeEmail } from './lib/validate';
 import { sanitizeInput, sanitizeEmail } from './lib/sanitize';
 import { rateLimiter } from './lib/rate-limit';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error('RESEND_API_KEY is not configured');
+  }
+  return new Resend(apiKey);
+}
 
 interface SubmitEmailRequest {
   email: string;
@@ -118,6 +124,20 @@ export async function handleSubmitEmail(request: Request): Promise<Response> {
 
   const sanitizedEmail = sanitizeEmail(normalizeEmail(body.email));
 
+  let resend;
+  try {
+    resend = getResendClient();
+  } catch (error) {
+    console.error('Email service configuration error:', error);
+    return new Response(
+      JSON.stringify({ status: 'error', message: 'Email service is not configured.' }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      }
+    );
+  }
+
   try {
     await resend.emails.send({
       from: 'Porsche GT3 RS Showcase <noreply@velixo.io>',
@@ -147,6 +167,21 @@ export async function handleSubmitEmail(request: Request): Promise<Response> {
 
 export default {
   fetch: async (request: Request): Promise<Response> => {
-    return handleSubmitEmail(request);
+    try {
+      return await handleSubmitEmail(request);
+    } catch (error) {
+      console.error('Unhandled error in submit-email:', error);
+      return new Response(
+        JSON.stringify({
+          status: 'error',
+          message: 'Internal server error.',
+          detail: error instanceof Error ? error.message : 'Unknown error',
+        }),
+        {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
   },
 };
