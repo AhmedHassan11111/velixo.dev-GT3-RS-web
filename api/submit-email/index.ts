@@ -166,8 +166,8 @@ export async function handleSubmitEmail(request: Request): Promise<Response> {
 
   try {
     const payload = {
-      from: 'Porsche GT3 RS Showcase <noreply@velixo.io>',
-      to: ['contact@velixo.io'],
+      from: 'Velixo <onboarding@resend.dev>',
+      to: ['ahmedhassan7979797979@gmail.com'],
       subject: 'New Email Submission',
       text: `New submission: ${sanitizedEmail}`,
     };
