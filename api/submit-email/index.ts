@@ -165,17 +165,29 @@ export async function handleSubmitEmail(request: Request): Promise<Response> {
   }
 
   try {
-    await withTimeout(
-      resend.emails.send({
-        from: 'Porsche GT3 RS Showcase <noreply@velixo.io>',
-        to: ['contact@velixo.io'],
-        subject: 'New Email Submission',
-        text: `New submission: ${sanitizedEmail}`,
-      }),
-      8000
+    const payload = {
+      from: 'Porsche GT3 RS Showcase <noreply@velixo.io>',
+      to: ['contact@velixo.io'],
+      subject: 'New Email Submission',
+      text: `New submission: ${sanitizedEmail}`,
+    };
+    console.log('[Resend] Sending email with payload:', JSON.stringify(payload));
+    const result = await withTimeout(resend.emails.send(payload), 8000);
+    console.log('[Resend] Email sent successfully. Response:', JSON.stringify(result));
+    return new Response(
+      JSON.stringify({ status: 'accepted', message: 'Thank you for subscribing.' }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
+      }
     );
   } catch (error) {
-    console.error('Failed to send email:', error);
+    console.error('[Resend] Failed to send email:', error);
+    console.error('[Resend] Error details:', JSON.stringify({
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      name: error instanceof Error ? error.name : undefined,
+    }));
     return new Response(
       JSON.stringify({ 
         status: 'error', 
@@ -188,14 +200,6 @@ export async function handleSubmitEmail(request: Request): Promise<Response> {
       }
     );
   }
-
-  return new Response(
-    JSON.stringify({ status: 'accepted', message: 'Thank you for subscribing.' }),
-    {
-      status: 200,
-      headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
-    }
-  );
 }
 
 export default {
