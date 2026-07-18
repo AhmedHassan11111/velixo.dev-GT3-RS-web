@@ -103,3 +103,63 @@
   }
 }
 
+/* ─────────────────────────────────────────────────────────────
+   Hero mobile scroll-scrub tuning (feature 003-fix-hero-mobile-scrub)
+   Scoped to the hero only — never globally hijack touch scroll.
+   ───────────────────────────────────────────────────────────── */
+#hero-sticky {
+  /* Remove competing gesture recognizers over the hero canvas so touch
+     scrolling stays native (no double-tap zoom fighting the scrub). */
+  touch-action: manipulation;
+  overscroll-behavior: contain;
+}
+
+#hero-canvas {
+  /* Promote the canvas to its own layer for smoother compositing
+     during the scrub (FR-004/R2). */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Hero overlay typography tuned for small screens (FR-007/FR-008/FR-009, R5):
+   fluid clamp() type, safe-area insets, no horizontal overflow. */
+#hero-text {
+  padding: clamp(1.25rem, 8vw, 6rem) clamp(1rem, 5vw, 1.5rem)
+    calc(clamp(2rem, 12vw, 5rem) + env(safe-area-inset-bottom, 0px))
+    clamp(1rem, 5vw, 1.5rem);
+  max-width: 100%;
+  padding-left: max(clamp(1rem, 5vw, 1.5rem), env(safe-area-inset-left, 0px));
+  padding-right: max(clamp(1rem, 5vw, 1.5rem), env(safe-area-inset-right, 0px));
+  padding-top: max(clamp(1.25rem, 8vw, 6rem), env(safe-area-inset-top, 0px));
+}
+
+#hero-text h1 {
+  font-size: clamp(1.75rem, 9vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  /* Wrap rather than overflow on the narrowest phones. */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 18ch;
+}
+
+#hero-text p {
+  font-size: clamp(0.8rem, 3.6vw, 0.95rem);
+  max-width: 34ch;
+}
+
+#hero-text a {
+  font-size: clamp(0.8rem, 3.6vw, 0.875rem);
+}
+
+#hero-scroll-indicator {
+  right: max(1.5rem, env(safe-area-inset-right, 0px));
+  bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+}
+
+/* Guard against any residual horizontal overflow on small phones (FR-007). */
+html,
+body {
+  overflow-x: hidden;
+}
+

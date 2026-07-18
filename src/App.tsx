@@ -184,10 +184,11 @@ const TOTAL_FRAMES = 174;
 function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
   const containerRef = useRef<HTMLElement>(document.getElementById("overview")!);
   const stickyRef = useRef<HTMLElement>(document.getElementById("hero-sticky")!);
-  const canvasRef = useRef<HTMLCanvasElement>(document.getElementById("hero-canvas")!);
+  const canvasRef = useRef<HTMLCanvasElement>(document.getElementById("hero-canvas") as HTMLCanvasElement);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
   const layoutRef = useRef({ sectionTop: 0, scrollDist: 0, mobile: false });
+  const heroVisibleRef = useRef(true);
   const [currentFrame, setCurrentFrame] = useState(1);
 
   const heroManifest = IMAGES.hero;
@@ -202,10 +203,19 @@ function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
 
   const measureLayout = () => {
     const section = containerRef.current;
+    const sticky = stickyRef.current;
     if (!section) return;
-    layoutRef.current.sectionTop = section.offsetTop;
-    layoutRef.current.scrollDist = window.innerHeight * 6; // 600vh of travel
+    // Derive the scrub travel from the sticky element's actual scroll range rather than a
+    // fixed `innerHeight * 6` multiple, so it stays correct when the mobile address bar
+    // show/hide resizes the viewport mid-scroll (FR-003/FR-005, R1).
+    const stickyHeight = sticky ? sticky.getBoundingClientRect().height : window.innerHeight;
+    layoutRef.current.sectionTop = window.scrollY + section.getBoundingClientRect().top;
+    const totalScroll = section.offsetHeight - stickyHeight;
+    // Mobile gets a slightly snappier, shorter scrub tuned for short/wide phone viewports
+    // (not a uniform scale-down of desktop) — FR-001/R1.
     layoutRef.current.mobile = window.innerWidth < 768;
+    const mobileFactor = layoutRef.current.mobile ? 0.85 : 1;
+    layoutRef.current.scrollDist = Math.max(1, totalScroll * mobileFactor);
   };
 
   // Lazy frame loader: only the poster + a small initial window get .src up front,
@@ -216,12 +226,13 @@ function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
 
   const loadFrame = (images: HTMLImageElement[], i: number, onReady?: () => void) => {
     const img = images[i];
-    if (!img || (img as any).started) return;
+    if (!img || (img as any).started || (img as any).canceled) return;
     (img as any).started = true;
     const avif = frameSrc(i, "avif");
     const webp = frameSrc(i, "webp");
     img.onload = () => {
       (img as any).ready = true;
+      decodeFrame(img);
       onReady?.();
     };
     img.onerror = () => {
@@ -281,12 +292,33 @@ function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onReady]);
 
-  // Ensure the frame we're about to draw (and a look-ahead window) is loaded.
+  // Ensure the frame we're about to draw (and a decode-ahead window) is loaded.
+  // Decode-ahead keeps frames ready before a fast touch fling reaches them so the
+  // visible frame never lags >1 frame behind (FR-002/FR-006, R3).
   const ensureFramesLoaded = (center: number) => {
     const images = imagesRef.current;
     if (!images.length) return;
+    // Cancel preloads that are now far behind the scroll position (free decode bandwidth).
+    for (let i = 0; i < center - (LOAD_AHEAD + 4); i++) {
+      (images[i] as any).canceled = true;
+    }
     for (let i = Math.max(0, center - 1); i <= Math.min(TOTAL_FRAMES - 1, center + LOAD_AHEAD); i++) {
       loadFrame(images, i);
+    }
+  };
+
+  // Pre-decode an image element so it is paint-ready without blocking the scroll frame.
+  const decodeFrame = (img: HTMLImageElement) => {
+    if ((img as any).decoded || (img as any).failed || (img as any).canceled) return;
+    if (typeof img.decode === "function") {
+      img
+        .decode()
+        .then(() => {
+          (img as any).decoded = true;
+        })
+        .catch(() => {
+          /* decode is best-effort; onload still fires for paint */
+        });
     }
   };
 
@@ -356,11 +388,16 @@ function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
     let ticking = false;
     const update = () => {
       ticking = false;
+      // Hero not on screen → skip all work (IntersectionObserver gate, FR-004/R2).
+      if (!heroVisibleRef.current) return;
       const { sectionTop, scrollDist } = layoutRef.current;
       const scrollY = window.scrollY;
       const progress = Math.max(0, Math.min(1, (scrollY - sectionTop) / scrollDist));
-
-      const frameIndex = Math.round(progress * (TOTAL_FRAMES - 1));
+      // Clamped Math.round mapping — no sub-pixel interpolation (FR-002/R4).
+      const frameIndex = Math.max(
+        0,
+        Math.min(TOTAL_FRAMES - 1, Math.round(progress * (TOTAL_FRAMES - 1)))
+      );
       ensureFramesLoaded(frameIndex);
       if (frameIndex !== currentFrameRef.current) {
         currentFrameRef.current = frameIndex;
@@ -375,13 +412,32 @@ function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
       }
     };
 
+    // Gate the loop: only run while the hero sticky element is intersecting the viewport.
+    const sticky = stickyRef.current;
+    let observer: IntersectionObserver | null = null;
+    if (sticky && "IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            heroVisibleRef.current = entry.isIntersecting;
+            if (entry.isIntersecting) onScroll();
+          }
+        },
+        { threshold: 0 }
+      );
+      observer.observe(sticky);
+    }
+
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      observer?.disconnect();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Redraw on resize (re-measure layout, re-pick frame resolution)
+  // Redraw on resize / mobile address-bar show-hide (re-measure layout, re-pick frame).
   useEffect(() => {
     const handleResize = () => {
       measureLayout();
@@ -389,7 +445,16 @@ function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
       drawFrame(frameIndex);
     };
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    // VisualViewport fires when the mobile address bar shows/hides — re-measure so the
+    // scrub travel stays aligned (FR-005/R1).
+    const vv = window.visualViewport;
+    vv?.addEventListener("resize", handleResize);
+    vv?.addEventListener("scroll", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      vv?.removeEventListener("resize", handleResize);
+      vv?.removeEventListener("scroll", handleResize);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentFrame]);
 
