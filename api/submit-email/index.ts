@@ -34,10 +34,19 @@ function getClientIp(request: Request): string {
 
 function checkCors(request: Request): boolean {
   const origin = request.headers.get('origin');
-  if (!origin) return true;
   const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()) || [];
+
+  console.log('[CORS Debug] Incoming Origin header:', JSON.stringify(origin));
+  console.log('[CORS Debug] ALLOWED_ORIGINS env:', JSON.stringify(process.env.ALLOWED_ORIGINS));
+  console.log('[CORS Debug] Parsed allowed origins:', JSON.stringify(allowedOrigins));
+  console.log('[CORS Debug] Exact match check:', allowedOrigins.map(a => `${a} === ${origin} ? ${a === origin}`));
+
+  if (!origin) return true;
   if (allowedOrigins.length === 0) return true;
-  return allowedOrigins.includes(origin);
+
+  const isAllowed = allowedOrigins.includes(origin);
+  console.log('[CORS Debug] Final CORS decision:', isAllowed ? 'ALLOWED' : 'REJECTED');
+  return isAllowed;
 }
 
 function corsHeaders(origin: string | null): Record<string, string> {
