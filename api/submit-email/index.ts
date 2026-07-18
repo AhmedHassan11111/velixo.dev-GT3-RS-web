@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
-import { isValidEmail, normalizeEmail } from './lib/validate';
-import { sanitizeInput, sanitizeEmail } from './lib/sanitize';
-import { rateLimiter } from './lib/rate-limit';
+import { isValidEmail, normalizeEmail } from './lib/validate.js';
+import { sanitizeInput, sanitizeEmail } from './lib/sanitize.js';
+import { rateLimiter } from './lib/rate-limit.js';
 
 console.log('[submit-email] Environment check:', {
   hasResendKey: !!process.env.RESEND_API_KEY,
