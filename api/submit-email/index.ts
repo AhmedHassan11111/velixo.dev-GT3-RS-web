@@ -3,6 +3,14 @@ import { isValidEmail, normalizeEmail } from './lib/validate';
 import { sanitizeInput, sanitizeEmail } from './lib/sanitize';
 import { rateLimiter } from './lib/rate-limit';
 
+console.log('[submit-email] Environment check:', {
+  hasResendKey: !!process.env.RESEND_API_KEY,
+  hasUpstashUrl: !!process.env.UPSTASH_REDIS_REST_URL,
+  hasUpstashToken: !!process.env.UPSTASH_REDIS_REST_TOKEN,
+  upstashUrl: process.env.UPSTASH_REDIS_REST_URL?.replace(/\/\/.*@/, '//***@') || 'missing',
+  allowedOrigins: process.env.ALLOWED_ORIGINS || 'not set (allowing all)',
+});
+
 function getResendClient() {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -41,6 +49,15 @@ function corsHeaders(origin: string | null): Record<string, string> {
     headers['Access-Control-Allow-Origin'] = origin;
   }
   return headers;
+}
+
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  const timeout = new Promise<never>((_, reject) => {
+    setTimeout(() => {
+      reject(new Error(`Operation timed out after ${ms}ms`));
+    }, ms);
+  });
+  return Promise.race([promise, timeout]);
 }
 
 export async function handleSubmitEmail(request: Request): Promise<Response> {
@@ -139,16 +156,23 @@ export async function handleSubmitEmail(request: Request): Promise<Response> {
   }
 
   try {
-    await resend.emails.send({
-      from: 'Porsche GT3 RS Showcase <noreply@velixo.io>',
-      to: ['contact@velixo.io'],
-      subject: 'New Email Submission',
-      text: `New submission: ${sanitizedEmail}`,
-    });
+    await withTimeout(
+      resend.emails.send({
+        from: 'Porsche GT3 RS Showcase <noreply@velixo.io>',
+        to: ['contact@velixo.io'],
+        subject: 'New Email Submission',
+        text: `New submission: ${sanitizedEmail}`,
+      }),
+      8000
+    );
   } catch (error) {
     console.error('Failed to send email:', error);
     return new Response(
-      JSON.stringify({ status: 'error', message: 'Failed to process submission.' }),
+      JSON.stringify({ 
+        status: 'error', 
+        message: 'Failed to process submission.',
+        detail: error instanceof Error ? error.message : 'Unknown error'
+      }),
       {
         status: 500,
         headers: { 'Content-Type': 'application/json', ...corsHeaders(origin) },
