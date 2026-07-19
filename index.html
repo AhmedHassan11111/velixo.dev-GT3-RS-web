@@ -31,10 +31,10 @@
   </head>
   <body>
     <section id="overview" style="height: 700vh; position: relative; background-color: #000;">
-      <div id="hero-sticky" style="position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background-color: #000; z-index: 1; contain: layout; visibility: hidden; opacity: 0;">
+      <div id="hero-sticky" style="position: sticky; top: 0; height: 100vh; height: 100dvh; width: 100%; overflow: hidden; background-color: #000; z-index: 1; pointer-events: none; visibility: hidden; opacity: 0;">
         <canvas id="hero-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; visibility: hidden; opacity: 0;"></canvas>
         <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);"></div>
-        <div id="hero-text" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 6rem 1.5rem 5rem; max-width: 56rem; text-align: left; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; z-index: 2; visibility: hidden; opacity: 0;">
+        <div id="hero-text" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 6rem 1.5rem 5rem; max-width: 56rem; text-align: left; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; z-index: 2; pointer-events: none; visibility: hidden; opacity: 0;">
           <div style="max-width: 36rem;">
             <div style="margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 9999px; border: 1px solid #262626; background: rgba(0,0,0,0.6); padding: 0.25rem 0.75rem; font-size: 0.625rem; font-weight: 500; letter-spacing: 0.1em; color: #d4d4d4; backdrop-filter: blur(4px);">
               <span style="display: inline-block; height: 0.375rem; width: 0.375rem; border-radius: 50%; background: #0066FF; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></span>

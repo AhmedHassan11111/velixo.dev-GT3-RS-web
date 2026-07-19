@@ -43,7 +43,7 @@ description: "Task list for fixing Hero mobile scroll-scrubbing"
 
 - [x] T003 Replace fixed `window.innerHeight * 6` travel in `src/App.tsx` `measureLayout()` with geometry-derived travel (`HeroScrollTravel.startScroll` / `travel` from the sticky element's rect vs scroll), re-measured on resize only — never per frame (FR-001, FR-005, R1)
 - [x] T004 Add `VisualViewport` resize/`scroll` listener in `src/App.tsx` to re-measure travel when the mobile address bar shows/hides, storing into `layoutRef` without per-frame layout reads (FR-005, R1)
-- [x] T005 Gate the rAF update loop in `src/App.tsx` with an `IntersectionObserver` on the hero so the scroll loop only runs while the hero is on screen; disconnect/clean up on unmount (FR-004, R2)
+- [x] T005 Keep the rAF update loop passive and document that the earlier `IntersectionObserver` gate was removed after regression testing; no scroll input is intercepted or canceled (FR-004, R2)
 - [x] T006 Keep the loop passive + rAF-coalesced and remove any `offsetTop`/`getBoundingClientRect` reads from the per-frame `update()` path in `src/App.tsx`; cache geometry from T003/T004 only (FR-005, R2)
 - [x] T007 Replace per-frame `Math.round(progress * (TOTAL_FRAMES - 1))` mapping in `src/App.tsx` with clamped `Math.round` + clamp to `[0, TOTAL_FRAMES-1]` (no sub-pixel interpolation) — already `Math.round`, add clamp + document (FR-002, R4)
 
@@ -72,7 +72,7 @@ description: "Task list for fixing Hero mobile scroll-scrubbing"
 
 **Independent Test**: Continuous + fast-fling touch scrolls on iPhone SE and Pixel; scrollbar moves continuously, no frozen frames / forced deceleration / scroll reset / snap-back (quickstart V3).
 
-- [x] T012 [US2] Add `touch-action: manipulation` and scoped `overscroll-behavior: contain` to the hero canvas/section in `src/index.css` (or inline in `src/App.tsx`) to remove competing gesture recognizers (FR-004, R2)
+- [x] T012 [US2] Preserve native Hero touch scroll by avoiding gesture containment (`touch-action: auto`, `overscroll-behavior: auto`) and making the sticky visual layer pointer-transparent while CTA links opt back in (FR-004, R2)
 - [x] T013 [US2] Promote the hero `<canvas>` with `will-change: transform` in `src/index.css` and confirm the update loop never reads layout props on mobile (FR-004, FR-005, R2)
 - [ ] T014 [US2] Validate on real iPhone SE + Pixel: 0 scroll-jacking instances across slow and fast flings (quickstart V3) (FR-004, SC-003) — see verification-records.md
 - [ ] T015 [US2] Capture DevTools Performance on both devices: no hero-attributable main-thread task > 50ms during scroll (quickstart V5) (FR-005, SC-006) — see verification-records.md
@@ -89,7 +89,7 @@ description: "Task list for fixing Hero mobile scroll-scrubbing"
 
 - [x] T016 [US3] Apply `env(safe-area-inset-*)` padding to the hero overlay container in `src/index.css` so notched/home-indicator devices don't clip content (FR-008, R5)
 - [x] T017 [US3] Convert hero heading/subhead/CTA type to fluid `clamp()` scales in `src/index.css` so they fit without horizontal overflow at 375px (FR-007, R5)
-- [x] T018 [US3] Add `overflow-x: hidden` guard and `max-width`/`margin-inline: auto` on the hero in `src/index.css` to prevent layout shift on small phones (FR-007, R5)
+- [x] T018 [US3] Add hero-scoped width constraints only; do not use a global `html, body { overflow-x: hidden }` guard because it regressed native scrolling (FR-007, R5)
 - [x] T019 [US3] Differentiate small (~375px) vs larger (~412px) phone via fluid `clamp()` spacing (not a uniform scaled copy) in `src/index.css` + verify in `index.html`/hero markup (FR-009, R5)
 - [ ] T020 [US3] Validate on real iPhone SE + Pixel: 0 horizontal overflow, 0 safe-area cut-off, 0 title collision (quickstart V6) (FR-007, FR-008, FR-009, SC-004, SC-005) — see verification-records.md
 

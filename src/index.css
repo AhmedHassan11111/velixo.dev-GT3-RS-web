@@ -107,18 +107,17 @@
    Hero mobile scroll-scrub tuning (feature 003-fix-hero-mobile-scrub)
    Scoped to the hero only — never globally hijack touch scroll.
    ───────────────────────────────────────────────────────────── */
-#hero-sticky {
-  /* Remove competing gesture recognizers over the hero canvas so touch
-     scrolling stays native (no double-tap zoom fighting the scrub). */
-  touch-action: manipulation;
-  overscroll-behavior: contain;
-}
-
 #hero-canvas {
   /* Promote the canvas to its own layer for smoother compositing
      during the scrub (FR-004/R2). */
   will-change: transform;
   transform: translateZ(0);
+}
+
+#hero-text a {
+  /* The sticky visual layer ignores pointer hit-testing so scroll gestures always
+     belong to the page; links opt back in for normal taps/clicks. */
+  pointer-events: auto;
 }
 
 /* Hero overlay typography tuned for small screens (FR-007/FR-008/FR-009, R5):
@@ -157,9 +156,9 @@
   bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
 }
 
-/* Guard against any residual horizontal overflow on small phones (FR-007). */
-html,
-body {
-  overflow-x: hidden;
-}
+/* NOTE: Do NOT set `overflow-x: hidden` on html/body — it breaks native page
+   scrolling site-wide and collapses later sections (e.g. Configure). The hero
+   section (`#overview` / `#hero-sticky`) already clips its own overflow, so no
+   global guard is needed. FR-007 horizontal-overflow safety is handled by the
+   hero-scoped rules above. */
 
