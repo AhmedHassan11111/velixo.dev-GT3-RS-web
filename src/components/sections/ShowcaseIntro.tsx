@@ -14,7 +14,8 @@ export function ShowcaseIntro() {
           name="section"
           alt="Showcase"
           eager
-          className="w-full rounded-xl object-cover shadow-2xl"
+          widthsAttr="(max-width: 640px) 100vw, 80vw"
+          className="aspect-[4/3] w-full rounded-xl object-cover shadow-2xl md:aspect-auto"
         />
       </div>
     </section>

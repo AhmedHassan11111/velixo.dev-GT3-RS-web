@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
-import { getContentImage } from "../../lib/images";
+import { ResponsiveImage } from "../ResponsiveImage";
 import { techFeatures } from "../../data";
 
 export function Technology() {
@@ -37,13 +37,11 @@ export function Technology() {
               whileHover={{ y: -14, scale: 1.03 }}
               className="group relative min-h-[420px] cursor-pointer overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-lg transition-all duration-500 hover:border-electric-blue hover:shadow-2xl hover:shadow-electric-blue/10"
             >
-              <div
-                className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110"
-                style={{
-                  backgroundImage: `url(${getContentImage(item.image)?.variants.at(-1)?.webp ?? `/${item.image}.jpg`})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
+              <ResponsiveImage
+                name={item.image}
+                alt={item.title}
+                widthsAttr="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
               <div className="absolute inset-0 bg-black/20 transition-colors duration-500 group-hover:bg-black/10" />

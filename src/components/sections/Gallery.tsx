@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
-import { getContentImage } from "../../lib/images";
+import { ResponsiveImage } from "../ResponsiveImage";
 
 export function Gallery() {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,16 +34,17 @@ export function Gallery() {
           className="mt-16 overflow-hidden rounded-2xl"
           style={{ padding: "0 20px" }}
         >
-          <motion.img
-            src={getContentImage("dark")?.jpg ?? "/dark.jpg"}
-            srcSet={getContentImage("dark")?.variants.map((v) => `${v.jpg} ${v.width}w`).join(", ")}
-            sizes="(max-width:768px) 100vw, 80vw"
-            alt="Showcase"
-            loading="lazy"
-            decoding="async"
-            className="w-full rounded-2xl object-cover"
-            style={{ y: imgY, scale: imgScale, height: "calc(100vh - 10px)", minHeight: "70vh", objectPosition: "center 60%" }}
-          />
+          <motion.div
+            style={{ y: imgY, scale: imgScale }}
+            className="h-[50vh] min-h-[400px] md:h-[calc(100vh-10px)] md:min-h-[70vh] w-full"
+          >
+            <ResponsiveImage
+              name="dark"
+              alt="Showcase"
+              className="h-full w-full rounded-2xl object-cover object-[center_60%]"
+              widthsAttr="(max-width:768px) 100vw, 80vw"
+            />
+          </motion.div>
         </motion.div>
       </div>
     </section>

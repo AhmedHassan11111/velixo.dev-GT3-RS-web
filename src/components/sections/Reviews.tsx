@@ -11,7 +11,7 @@ export function Reviews() {
   return (
     <section ref={ref} className="relative overflow-hidden bg-black py-24 sm:py-32">
       <motion.div style={{ y: bgY }} className="absolute inset-0 -top-[20%] h-[140%]">
-        <ResponsiveImage name="white" alt="" className="h-full w-full object-cover" />
+        <ResponsiveImage name="white" alt="" widthsAttr="100vw" className="h-full w-full object-cover" />
       </motion.div>
       <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

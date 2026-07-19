@@ -31,7 +31,7 @@ export function ServicesShowcase() {
             className="absolute inset-0 z-10"
             style={{ scale: img1Scale, transformOrigin: "top left" }}
           >
-            <ResponsiveImage name="fhotoone" alt="Service showcase" className="h-full w-full object-cover" />
+            <ResponsiveImage name="fhotoone" alt="Service showcase" widthsAttr="100vw" className="h-full w-full object-cover" />
           </motion.div>
 
           <motion.div
@@ -41,13 +41,13 @@ export function ServicesShowcase() {
             <div className="grid h-full w-full grid-cols-2 grid-rows-2 gap-[2px]">
               <div className="overflow-hidden" />
               <div className="overflow-hidden">
-                <ResponsiveImage name="fhoto2" alt="Service showcase" className="h-full w-full object-cover" />
+                <ResponsiveImage name="fhoto2" alt="Service showcase" widthsAttr="50vw" className="h-full w-full object-cover" />
               </div>
               <div className="overflow-hidden">
-                <ResponsiveImage name="fhoto3" alt="Service showcase" className="h-full w-full object-cover" />
+                <ResponsiveImage name="fhoto3" alt="Service showcase" widthsAttr="50vw" className="h-full w-full object-cover" />
               </div>
               <div className="overflow-hidden">
-                <ResponsiveImage name="fhoto4" alt="Service showcase" className="h-full w-full object-cover" />
+                <ResponsiveImage name="fhoto4" alt="Service showcase" widthsAttr="50vw" className="h-full w-full object-cover" />
               </div>
             </div>
           </motion.div>

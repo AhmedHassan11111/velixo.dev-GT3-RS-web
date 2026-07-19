@@ -24,12 +24,12 @@ export function ResponsiveImage({ name, alt, className, eager, widthsAttr }: Pro
 
   return (
     <picture>
-      <source type="image/avif" srcSet={srcSet("avif")} sizes={img.sizes} />
-      <source type="image/webp" srcSet={srcSet("webp")} sizes={img.sizes} />
+      <source type="image/avif" srcSet={srcSet("avif")} sizes={widthsAttr || img.sizes} />
+      <source type="image/webp" srcSet={srcSet("webp")} sizes={widthsAttr || img.sizes} />
       <img
         src={img.variants[img.variants.length - 1]?.jpg}
         srcSet={img.variants.map((v) => `${v.jpg} ${v.width}w`).join(", ")}
-        sizes={img.sizes}
+        sizes={widthsAttr || img.sizes}
         alt={alt}
         className={className}
         loading={eager ? "eager" : "lazy"}

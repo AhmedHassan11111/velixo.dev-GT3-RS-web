@@ -46,11 +46,12 @@ export function Design() {
             whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="relative overflow-hidden rounded-3xl"
+            className="relative overflow-hidden rounded-3xl aspect-[4/3] lg:aspect-auto lg:h-full"
           >
             <ResponsiveImage
               name="section4"
               alt="Portfolio showcase"
+              widthsAttr="(max-width: 1024px) 100vw, 50vw"
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />

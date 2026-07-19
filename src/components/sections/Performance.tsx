@@ -11,7 +11,7 @@ export function Performance() {
   return (
     <section id="performance" ref={ref} className="relative overflow-hidden py-24 sm:py-32">
       <motion.div style={{ y: bgY }} className="absolute inset-0 -top-[15%] h-[130%]">
-        <ResponsiveImage name="section3" alt="" className="h-full w-full object-cover" />
+        <ResponsiveImage name="section3" alt="" widthsAttr="100vw" className="h-full w-full object-cover" />
       </motion.div>
       <div className="absolute inset-0 bg-black/70" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
