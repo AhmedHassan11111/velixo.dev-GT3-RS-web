@@ -72,36 +72,16 @@ export function CTA() {
             Build & Order
             <ArrowRight className="h-4 w-4" />
           </Link>
-          <form onSubmit={handleSubmit} className="inline-flex flex-col gap-2 sm:flex-row">
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              required
-              className="rounded-full border border-neutral-700 bg-neutral-900 px-5 py-3.5 text-base text-white placeholder:text-neutral-600 focus:border-electric-blue focus:outline-none"
-            />
-            <input
-              type="text"
-              name="honeypot"
-              tabIndex={-1}
-              autoComplete="off"
-              className="hidden"
-              aria-hidden="true"
-            />
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-700 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? 'Sending...' : 'Send Message'}
-              {!isSubmitting && <Phone className="h-4 w-4" />}
-            </button>
-          </form>
-          {formStatus && (
-            <p className={`mt-3 text-sm ${formStatus.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
-              {formStatus.message}
-            </p>
-          )}
+          <button
+            type="button"
+            onClick={() => {
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-700 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/10"
+          >
+            Send Message
+            <Phone className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </section>
