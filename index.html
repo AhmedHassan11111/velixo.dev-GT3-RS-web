@@ -15,7 +15,7 @@
     <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
     <style>
-      #hero-sticky, #hero-text, #hero-canvas, #hero-scroll-indicator {
+      #hero-sticky, #hero-text, #hero-canvas, #hero-scroll-indicator, #hero-video {
         visibility: hidden !important;
         opacity: 0 !important;
         transition: opacity 0.3s ease !important;
@@ -23,9 +23,30 @@
       body.hero-ready #hero-sticky,
       body.hero-ready #hero-text,
       body.hero-ready #hero-canvas,
-      body.hero-ready #hero-scroll-indicator {
+      body.hero-ready #hero-scroll-indicator,
+      body.hero-ready #hero-video {
         visibility: visible !important;
         opacity: 1 !important;
+      }
+      /* Mobile (≤767.98px): show the looping background video instead of the
+         scroll-scrubbed canvas. Desktop keeps the canvas; the video is suppressed. */
+      @media (max-width: 767.98px) {
+        #hero-canvas { display: none !important; }
+        #hero-video { display: block !important; }
+        /* Subtle bottom-to-top dark gradient over the video for depth + text
+           legibility. Video stays clearly visible; scoped to mobile only. */
+        .hero-video-overlay {
+          display: block !important;
+          background: linear-gradient(to top,
+            rgba(0,0,0,0.5) 0%,
+            rgba(0,0,0,0.25) 45%,
+            rgba(0,0,0,0) 100%);
+        }
+        /* Mobile hero is a single viewport — no scrub travel needed. */
+        #overview { height: 100vh !important; height: 100dvh !important; }
+      }
+      @media (min-width: 768px) {
+        #hero-video { display: none !important; }
       }
     </style>
   </head>
@@ -33,6 +54,10 @@
     <section id="overview" style="height: 700vh; position: relative; background-color: #000;">
       <div id="hero-sticky" style="position: sticky; top: 0; height: 100vh; height: 100dvh; width: 100%; overflow: hidden; background-color: #000; z-index: 1; pointer-events: none; visibility: hidden; opacity: 0;">
         <canvas id="hero-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; visibility: hidden; opacity: 0;"></canvas>
+        <video id="hero-video" muted loop playsinline autoplay style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; visibility: hidden; opacity: 0;">
+          <source src="/gen/hero.mobile/hero.mobile.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-video-overlay" style="display: none; position: absolute; inset: 0; z-index: 1; pointer-events: none;"></div>
         <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);"></div>
         <div id="hero-text" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 6rem 1.5rem 5rem; max-width: 56rem; text-align: left; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; z-index: 2; pointer-events: none; visibility: hidden; opacity: 0;">
           <div style="max-width: 36rem;">

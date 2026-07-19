@@ -114,6 +114,12 @@
   transform: translateZ(0);
 }
 
+/* Mobile-only looping background video (replaces the scrubbed canvas ≤767.98px).
+   Object-fit cover keeps it full-bleed like the frames did. Scoped to the hero. */
+#hero-video {
+  object-fit: cover;
+}
+
 #hero-text a {
   /* The sticky visual layer ignores pointer hit-testing so scroll gestures always
      belong to the page; links opt back in for normal taps/clicks. */

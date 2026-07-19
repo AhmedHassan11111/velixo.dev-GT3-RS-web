@@ -75,6 +75,14 @@ export function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
   };
 
   useEffect(() => {
+    // On mobile the Hero background is the looping video, not the scrubbed frames.
+    // Skip all frame loading, decoding, and painting entirely to save CPU/battery
+    // — the canvas is hidden via CSS anyway. Still fire onReady so the loading
+    // screen dismisses (the video autoplays as the background).
+    if (window.innerWidth < 768) {
+      onReady?.();
+      return;
+    }
     measureLayout();
     const images: HTMLImageElement[] = [];
     for (let i = 0; i < TOTAL_FRAMES; i++) images[i] = new Image();
@@ -211,6 +219,11 @@ export function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
       drawFrame(0);
       return;
     }
+    // Mobile: no scroll-scrubbing (the looping video is the background). Skip the
+    // scroll listener entirely so there is zero scrub work on phones.
+    if (window.innerWidth < 768) {
+      return;
+    }
 
     let ticking = false;
     const update = () => {
@@ -248,6 +261,10 @@ export function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
 
   // Redraw on resize / mobile address-bar show-hide (re-measure layout, re-pick frame).
   useEffect(() => {
+    // Mobile: no canvas to redraw; skip resize handling entirely.
+    if (window.innerWidth < 768) {
+      return;
+    }
     let resizeRaf = 0;
     const handleResize = () => {
       if (resizeRaf) cancelAnimationFrame(resizeRaf);

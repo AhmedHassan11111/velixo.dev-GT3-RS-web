@@ -247,9 +247,16 @@
       "eager": false
     },
     "tech-pasm": {
-      "variants": [],
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/tech-pasm/tech-pasm-640.avif",
+          "webp": "/gen/tech-pasm/tech-pasm-640.webp",
+          "jpg": "/gen/tech-pasm/tech-pasm-640.jpg"
+        }
+      ],
       "jpg": "/gen/tech-pasm/tech-pasm.jpg",
-      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw)",
       "eager": false
     },
     "tech-drs": {
@@ -272,9 +279,16 @@
       "eager": false
     },
     "tech-telemetry": {
-      "variants": [],
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/tech-telemetry/tech-telemetry-640.avif",
+          "webp": "/gen/tech-telemetry/tech-telemetry-640.webp",
+          "jpg": "/gen/tech-telemetry/tech-telemetry-640.jpg"
+        }
+      ],
       "jpg": "/gen/tech-telemetry/tech-telemetry.jpg",
-      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw",
+      "sizes": "(max-width:768px) 100vw, (max-width:1024px) 50vw, 25vw)",
       "eager": false
     }
   },
