@@ -111,6 +111,45 @@
       "jpg": "/gen/dark/dark.jpg",
       "sizes": "(max-width:768px) 100vw, 80vw",
       "eager": true
+    },
+    "performance-mobile": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/performance-mobile/performance-mobile-640.avif",
+          "webp": "/gen/performance-mobile/performance-mobile-640.webp",
+          "jpg": "/gen/performance-mobile/performance-mobile-640.jpg"
+        }
+      ],
+      "jpg": "/gen/performance-mobile/performance-mobile.jpg",
+      "sizes": "(max-width:768px) 100vw, 80vw",
+      "eager": false
+    },
+    "gallery-mobile": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/gallery-mobile/gallery-mobile-640.avif",
+          "webp": "/gen/gallery-mobile/gallery-mobile-640.webp",
+          "jpg": "/gen/gallery-mobile/gallery-mobile-640.jpg"
+        }
+      ],
+      "jpg": "/gen/gallery-mobile/gallery-mobile.jpg",
+      "sizes": "(max-width:768px) 100vw, 80vw",
+      "eager": false
+    },
+    "reviews-mobile": {
+      "variants": [
+        {
+          "width": 640,
+          "avif": "/gen/reviews-mobile/reviews-mobile-640.avif",
+          "webp": "/gen/reviews-mobile/reviews-mobile-640.webp",
+          "jpg": "/gen/reviews-mobile/reviews-mobile-640.jpg"
+        }
+      ],
+      "jpg": "/gen/reviews-mobile/reviews-mobile.jpg",
+      "sizes": "(max-width:768px) 100vw, 80vw",
+      "eager": false
     }
   },
   "cards": {

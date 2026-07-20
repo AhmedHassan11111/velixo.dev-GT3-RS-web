@@ -1,9 +1,11 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { ResponsiveImage } from "../ResponsiveImage";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 export function Gallery() {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
   const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 1.05]);
@@ -39,7 +41,7 @@ export function Gallery() {
             className="h-[50vh] min-h-[400px] md:h-[calc(100vh-10px)] md:min-h-[70vh] w-full"
           >
             <ResponsiveImage
-              name="dark"
+              name={isMobile ? "gallery-mobile" : "dark"}
               alt="Showcase"
               className="h-full w-full rounded-2xl object-cover object-[center_60%]"
               widthsAttr="(max-width:768px) 100vw, 80vw"

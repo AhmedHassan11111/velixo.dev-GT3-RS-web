@@ -1,17 +1,19 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { ResponsiveImage } from "../ResponsiveImage";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import { performanceSpecs } from "../../data";
 
 export function Performance() {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
 
   return (
     <section id="performance" ref={ref} className="relative overflow-hidden py-24 sm:py-32">
       <motion.div style={{ y: bgY }} className="absolute inset-0 -top-[15%] h-[130%]">
-        <ResponsiveImage name="section3" alt="" widthsAttr="100vw" className="h-full w-full object-cover" />
+        <ResponsiveImage name={isMobile ? "performance-mobile" : "section3"} alt="" widthsAttr="100vw" className="h-full w-full object-cover" />
       </motion.div>
       <div className="absolute inset-0 bg-black/70" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

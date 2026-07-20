@@ -42,6 +42,37 @@ export function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
     layoutRef.current.scrollDist = Math.max(1, totalScroll * mobileFactor);
   };
 
+  // Mobile-only: the Hero background is a looping <video>. To avoid a blank flash
+  // and a premature loading-screen dismissal, set an instant base64 poster and only
+  // signal ready once the video can actually play. A max-timeout safeguard (4s)
+  // prevents an indefinite hang on slow connections. Desktop is unaffected — its
+  // readiness still comes from the frame-scrub effect below.
+  useEffect(() => {
+    if (window.innerWidth >= 768) return;
+    const video = document.getElementById("hero-video") as HTMLVideoElement | null;
+    if (!video) {
+      onReady?.();
+      return;
+    }
+    video.poster = heroPoster;
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      onReady?.();
+    };
+    const onReadyToPlay = () => finish();
+    video.addEventListener("loadeddata", onReadyToPlay);
+    video.addEventListener("canplay", onReadyToPlay);
+    const safety = setTimeout(finish, 4000);
+    return () => {
+      clearTimeout(safety);
+      video.removeEventListener("loadeddata", onReadyToPlay);
+      video.removeEventListener("canplay", onReadyToPlay);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onReady]);
+
   // Lazy frame loader: only the poster + a small initial window get .src up front,
   // so the hero does not fire 174 parallel requests (which kills LCP on slow networks).
   // Frames further ahead are loaded on demand as the user scrolls near them.
@@ -77,10 +108,10 @@ export function HeroScrollFrames({ onReady }: { onReady?: () => void }) {
   useEffect(() => {
     // On mobile the Hero background is the looping video, not the scrubbed frames.
     // Skip all frame loading, decoding, and painting entirely to save CPU/battery
-    // — the canvas is hidden via CSS anyway. Still fire onReady so the loading
-    // screen dismisses (the video autoplays as the background).
+    // — the canvas is hidden via CSS anyway. Readiness (and loading-screen
+    // dismissal) is handled by the mobile video-gate effect below, so we do NOT
+    // fire onReady here.
     if (window.innerWidth < 768) {
-      onReady?.();
       return;
     }
     measureLayout();
